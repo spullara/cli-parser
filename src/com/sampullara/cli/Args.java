@@ -26,7 +26,12 @@ public class Args {
     public static List<String> parse(Object target, String[] args) {
         List<String> arguments = new ArrayList<String>();
         arguments.addAll(Arrays.asList(args));
-        Class clazz = target.getClass();
+        Class clazz;
+        if (target instanceof Class) {
+            clazz = (Class) target;
+        } else {
+            clazz = target.getClass();
+        }
         for (Field field : clazz.getDeclaredFields()) {
             processField(target, field, arguments);
         }
@@ -50,7 +55,13 @@ public class Args {
     }
 
     private static void processCommand(Object target, List<String> arguments) {
-        CommandMap commandMap = target.getClass().getAnnotation(CommandMap.class);
+        Class clazz;
+        if (target instanceof Class) {
+            clazz = (Class) target;
+        } else {
+            clazz = target.getClass();
+        }
+        CommandMap commandMap = (CommandMap) clazz.getAnnotation(CommandMap.class);
         if (commandMap != null) {
             Map<String, Class> map = new HashMap<String, Class>();
             for (Mapping mapping : commandMap.value()) {
@@ -91,7 +102,12 @@ public class Args {
     }
 
     public static void usage(Object target) {
-        Class clazz = target.getClass();
+        Class clazz;
+        if (target instanceof Class) {
+            clazz = (Class) target;
+        } else {
+            clazz = target.getClass();
+        }
         System.err.println("Usage: " + clazz.getName());
         for (Field field : clazz.getDeclaredFields()) {
             fieldUsage(target, field);

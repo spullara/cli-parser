@@ -75,6 +75,15 @@ public class ArgsTest extends AssertJUnit {
         Args.parse(tc, args);
     }
 
+    @Test
+    public void testStaticCommand() {
+        Args.usage(StaticTestCommand.class);
+        String[] args = { "-num", "1", "extra" };
+        List<String> extra = Args.parse(StaticTestCommand.class, args);
+        assertEquals(1, (int) StaticTestCommand.num);
+        assertEquals("extra", extra.get(0));
+    }
+
     public static class TestCommand {
         @Argument(value = "input", description = "This is the input file", required = true)
         private String inputFilename;
@@ -91,6 +100,11 @@ public class ArgsTest extends AssertJUnit {
         @Argument(description = "List of values", delimiter = ":")
         private Integer[] values;
 
+    }
+
+    public static class StaticTestCommand {
+        @Argument
+        private static Integer num;
     }
 
     public static class TestCommand2 {
