@@ -5,9 +5,9 @@
 
 package com.sampullara.cli;
 
+import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Documented;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)

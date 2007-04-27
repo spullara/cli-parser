@@ -5,22 +5,13 @@
 
 package com.sampullara.cli;
 
-import java.lang.reflect.AccessibleObject;
-import java.lang.reflect.Array;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.Field;
-import java.lang.reflect.Member;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.annotation.Annotation;
-import java.util.*;
 import java.beans.BeanInfo;
-import java.beans.Introspector;
 import java.beans.IntrospectionException;
+import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
-import java.io.Writer;
 import java.io.PrintWriter;
+import java.lang.reflect.*;
+import java.util.*;
 
 public class Args {
     public static List<String> parse(Object target, String[] args) {

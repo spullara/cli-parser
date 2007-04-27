@@ -1,6 +1,5 @@
 package com.sampullara.cli;
 
-import java.io.Writer;
 import java.io.PrintWriter;
 import java.util.Arrays;
 
