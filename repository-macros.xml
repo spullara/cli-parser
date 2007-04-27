@@ -1,0 +1,38 @@
+<!--
+  ~ Copyright (c) 2005, Gauntlet Systems Corporation. All Rights Reserved.
+  -->
+
+<project name="macros">
+    <taskdef resource="net/sf/antcontrib/antcontrib.properties" classpath="ant-lib/ant-contrib-1.0b2.jar"/>
+
+    <macrodef name="repository-path">
+        <attribute name="id" description="This is the path id"/>
+        <attribute name="repository" default="${repository.dir}" description="This is the location of the local repository"/>
+        <sequential>
+            <move file="@{repository}/.classpath" tofile="@{repository}/.classpath.done"/>
+            <path id="@{id}">
+                <fileset dir="@{repository}" includesfile="@{repository}/.classpath.done"/>
+            </path>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="repository">
+        <attribute name="groupid" description="This is the name of the library they you depend on"/>
+        <attribute name="artifactid" default="@{groupid}" description="This is the actual library name in the group"/>
+        <attribute name="version" description="This is the version of the library that you depend on"/>
+        <attribute name="repository" default="${repository.dir}" description="This is the location of the local repository"/>
+        <attribute name="url" default="http://www.gauntletsystems.com/maven/" description="This is the url of the online repository"/>
+        <attribute name="online" default="${repository.online}" description="If you are not online you will have to already have the dependencies downloaded"/>
+        <sequential>
+            <mkdir dir="@{repository}"/>
+            <if><not><available file="@{repository}/@{artifactid}-@{version}.jar"/></not><then>
+                <if><equals arg1="@{online}" arg2="true"/><then>
+                    <get src="@{url}@{groupid}/jars/@{artifactid}-@{version}.jar" dest="@{repository}/@{artifactid}-@{version}.jar" usetimestamp="true"/>
+                </then><else>
+                    <fail message="You must be online to build because you are missing the required libraries. Set repository.online=true to go online."/>
+                </else></if>
+            </then></if>
+            <echo append="true" file="@{repository}/.classpath" message="@{artifactid}-@{version}.jar${line.separator}"/>
+        </sequential>
+    </macrodef>
+</project>

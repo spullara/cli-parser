@@ -1,0 +1,63 @@
+<!--
+  ~ Copyright (c) 2005, Gauntlet Systems Corporation. All Rights Reserved.
+  -->
+
+<project name="emma-macros">
+    
+    <path id="emma.classpath">
+        <pathelement location="test-lib/emma-2.0.5312.jar"/>
+        <pathelement location="test-lib/emma_ant-2.0.5312.jar"/>
+    </path>
+
+    <macrodef name="emma-instrument">
+        <attribute name="outdir" default="${basedir}/emma" description="Path to the emma output"/>
+        <attribute name="instrpath" default="${classes}"
+                   description="This is the path for the classes to be instrumented"/>
+        <sequential>
+            <taskdef resource="emma_ant.properties" classpathref="emma.classpath"/>
+
+            <copy todir="@{outdir}/emma.classes" overwrite="true">
+                <fileset dir="@{instrpath}"/>
+            </copy>
+
+            <emma>
+                <instr merge="no"
+                       metadatafile="@{outdir}/gauntlet-metadata.emma"
+                       mode="overwrite">
+		       <instrpath>
+		             <pathelement path="@{instrpath}"/>
+		             <fileset dir="@{instrpath}" includes="**/*.jar"/>
+		       </instrpath>
+	       </instr>
+            </emma>
+        </sequential>
+    </macrodef>
+
+    <macrodef name="emma-report">
+        <attribute name="instrpath" default="${classes}"
+                   description="This is the classpath refid for the classes to be instrumented"/>
+        <attribute name="outdir" default="${basedir}/emma" description="Path to the emma output"/>
+        <attribute name="src" default="${src}" description="Path to the emma output"/>
+        <sequential>
+            <emma>
+                <report sourcepath="@{src}">
+                    <fileset dir="@{outdir}">
+                        <include name="gauntlet-metadata.emma"/>
+                    </fileset>
+                    <fileset dir="${basedir}">
+                        <include name="coverage.ec"/>
+                    </fileset>
+                    <html outfile="@{outdir}/gauntlet-coverage.html"/>
+                    <xml outfile="@{outdir}/gauntlet-coverage.xml"/>
+                </report>
+            </emma>
+            <delete dir="@{instrpath}"/>
+            <move todir="@{instrpath}">
+                <fileset dir="@{outdir}/emma.classes"/>
+            </move>
+        </sequential>
+    </macrodef>
+
+</project>
+
+

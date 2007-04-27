@@ -1,0 +1,51 @@
+<!--
+  ~ Copyright (c) 2005, Sam Pullara. All Rights Reserved.
+  ~ You may modify and redistribute as long as this attribution remains.
+  -->
+
+<project name="cli" default="all">
+    <target name="all" depends="clean,compile,test"/>
+
+    <target name="clean">
+        <delete dir="classes"/>
+        <delete dir="test-classes"/>
+        <delete dir="test-output"/>
+    </target>
+
+    <target name="compile">
+        <mkdir dir="classes"/>
+        <javac debug="true" srcdir="src" destdir="classes"/>
+    </target>
+
+    <target name="jar">
+        <jar basedir="classes" destfile="cli.jar"/>
+    </target>
+
+    <path id="test.classpath">
+        <pathelement location="classes"/>
+        <pathelement location="test-classes"/>
+        <pathelement location="test-lib/testng-4.2-jdk15.jar"/>
+    </path>
+
+    <taskdef name="testng" classpath="test-lib/testng-4.2-jdk15.jar" classname="org.testng.TestNGAntTask"/>
+
+    <property name="repository.dir" value=".test-lib"/>
+    <property name="repository.online" value="true"/>
+
+    <import file="repository-macros.xml"/>
+    <import file="emma-macros.xml"/>
+
+    <target name="test">
+        <mkdir dir="test-classes"/>
+        <javac srcdir="test" destdir="test-classes" classpathref="test.classpath"/>
+        <emma-instrument outdir="emma" instrpath="classes"/>
+        <testng >
+            <classpath>
+                <path refid="test.classpath"/>
+                <path refid="emma.classpath"/>
+            </classpath>
+            <classfileset dir="test-classes" includes="**/*Test.class"/>
+        </testng>
+        <emma-report outdir="emma" src="src" instrpath="classes"/>
+    </target>
+</project>
