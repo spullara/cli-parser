@@ -16,7 +16,7 @@ public class ArgsTest extends TestCase {
     public void testArgsParse() {
         TestCommand tc = new TestCommand();
         Args.usage(tc);
-        String[] args = {"-input", "inputfile", "-o", "outputfile", "extra1", "-someflag", "extra2", "-m", "10", "-values", "1:2:3"};
+        String[] args = {"-input", "inputfile", "-o", "outputfile", "extra1", "-someflag", "extra2", "-m", "10", "-values", "1:2:3", "-strings", "sam;dave;jolly"};
         List<String> extra = Args.parse(tc, args);
         assertEquals("inputfile", tc.inputFilename);
         assertEquals(new File("outputfile"), tc.outputFile);
@@ -24,6 +24,7 @@ public class ArgsTest extends TestCase {
         assertEquals(10, tc.minimum.intValue());
         assertEquals(3, tc.values.length);
         assertEquals(2, tc.values[1].intValue());
+        assertEquals("dave", tc.strings[1]);
         assertEquals(2, extra.size());
     }
 
@@ -79,6 +80,12 @@ public class ArgsTest extends TestCase {
         @Argument(description = "List of values", delimiter = ":")
         private Integer[] values;
 
+        @Argument(description = "List of strings", delimiter = ";")
+        private String[] strings;
+
+        @Argument(description = "not required")
+        private boolean notRequired;
+
     }
 
     public static class StaticTestCommand {
@@ -93,9 +100,9 @@ public class ArgsTest extends TestCase {
 
         private boolean someflag;
 
-        private Integer minimum;
+        private Integer minimum = 0;
 
-        private Integer[] values;
+        private Integer[] values = new Integer[] { 10 };
 
         public String getInputFilename() {
             return inputFilename;
@@ -152,6 +159,8 @@ public class ArgsTest extends TestCase {
 
         private boolean someflag;
 
+        private boolean someotherflag;
+
         private Integer minimum;
 
         private Integer[] values;
@@ -180,6 +189,11 @@ public class ArgsTest extends TestCase {
         @Argument(description = "This flag can optionally be set")
         public void setSomeflag(boolean someflag) {
             this.someflag = someflag;
+        }
+
+        @Argument(description = "This flag can optionally be set")
+        public void setSomeotherflag(boolean someotherflag) {
+            this.someotherflag = someotherflag;
         }
 
         public Integer getMinimum() {

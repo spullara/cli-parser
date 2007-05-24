@@ -43,13 +43,15 @@
 
     <target name="test">
         <mkdir dir="test-classes"/>
+        <mkdir dir="test-output"/>
         <javac srcdir="test" destdir="test-classes" classpathref="test.classpath"/>
         <emma-instrument outdir="emma" instrpath="classes"/>
-        <junit forkmode="once" dir="classes" printsummary="true">
+        <junit fork="true" forkmode="once" printsummary="true">
             <classpath>
                 <path refid="test.classpath"/>
                 <path refid="emma.classpath"/>
             </classpath>
+            <formatter type="xml"/>
             <batchtest todir="test-output">
                 <fileset dir="test-classes" includes="**/*Test.class"/>
             </batchtest>

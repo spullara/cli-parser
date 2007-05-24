@@ -28,17 +28,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sampullara/cli/CommandMap.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/com/sampullara/cli/AddCommand.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/test/com/sampullara/cli/RunCommand.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sampullara/cli/Args.java" afterPath="$PROJECT_DIR$/src/com/sampullara/cli/Args.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli.iml" afterPath="$PROJECT_DIR$/cli.iml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli.iws" afterPath="$PROJECT_DIR$/cli.iws" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sampullara/cli/Command.java" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sampullara/cli/Mapping.java" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/com/sampullara/cli/ArgsTest.java" afterPath="$PROJECT_DIR$/test/com/sampullara/cli/ArgsTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli.ipr" afterPath="$PROJECT_DIR$/cli.ipr" />
     </list>
   </component>
   <component name="ChangeListSynchronizer" />
@@ -178,16 +171,16 @@
       <file leaf-file-name="build.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="52" column="0" selection-start="1731" selection-end="1731" vertical-scroll-proportion="1.739645">
+            <state line="19" column="94" selection-start="615" selection-end="615" vertical-scroll-proportion="0.3233533">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Args.java" pinned="false" current="false" current-in-tab="false">
+      <file leaf-file-name="Args.java" pinned="false" current="true" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Args.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="0" selection-start="2515" selection-end="2515" vertical-scroll-proportion="1.3716815">
+            <state line="24" column="77" selection-start="812" selection-end="812" vertical-scroll-proportion="0.2690583">
               <folding />
             </state>
           </provider>
@@ -196,7 +189,7 @@
       <file leaf-file-name="ArgsTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/com/sampullara/cli/ArgsTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="57" column="0" selection-start="2211" selection-end="2211" vertical-scroll-proportion="0.37288135">
+            <state line="104" column="76" selection-start="3743" selection-end="3743" vertical-scroll-proportion="0.16890882">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -204,10 +197,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Argument.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="Argument.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Argument.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="18" selection-start="357" selection-end="357" vertical-scroll-proportion="0.16949153">
+            <state line="13" column="18" selection-start="357" selection-end="357" vertical-scroll-proportion="0.14035088">
               <folding>
                 <marker date="1177655955000" expanded="false" signature="173:289" placeholder="..." />
               </folding>
@@ -218,7 +211,7 @@
       <file leaf-file-name="NativeMethodAccessorImpl.class" pinned="false" current="false" current-in-tab="false">
         <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/classes.jar!/sun/reflect/NativeMethodAccessorImpl.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="430" selection-end="430" vertical-scroll-proportion="0.38938054">
+            <state line="12" column="0" selection-start="430" selection-end="430" vertical-scroll-proportion="0.19730942">
               <folding />
             </state>
           </provider>
@@ -662,7 +655,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="337" y="139" width="1440" height="828" extended-state="0" />
-    <editor active="false" />
+    <editor active="true" />
     <layout>
       <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
@@ -679,7 +672,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.07985611" order="1" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4400545" order="2" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4400545" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="4" />
@@ -812,28 +805,21 @@
     </entry>
     <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/classes.jar!/sun/reflect/NativeMethodAccessorImpl.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="430" selection-end="430" vertical-scroll-proportion="0.38938054">
+        <state line="12" column="0" selection-start="430" selection-end="430" vertical-scroll-proportion="0.19730942">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/build.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="52" column="0" selection-start="1731" selection-end="1731" vertical-scroll-proportion="1.739645">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Args.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="77" column="0" selection-start="2515" selection-end="2515" vertical-scroll-proportion="1.3716815">
+        <state line="19" column="94" selection-start="615" selection-end="615" vertical-scroll-proportion="0.3233533">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/test/com/sampullara/cli/ArgsTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="57" column="0" selection-start="2211" selection-end="2211" vertical-scroll-proportion="0.37288135">
+        <state line="104" column="76" selection-start="3743" selection-end="3743" vertical-scroll-proportion="0.16890882">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -842,10 +828,17 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Argument.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="18" selection-start="357" selection-end="357" vertical-scroll-proportion="0.16949153">
+        <state line="13" column="18" selection-start="357" selection-end="357" vertical-scroll-proportion="0.14035088">
           <folding>
             <marker date="1177655955000" expanded="false" signature="173:289" placeholder="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Args.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="24" column="77" selection-start="812" selection-end="812" vertical-scroll-proportion="0.2690583">
+          <folding />
         </state>
       </provider>
     </entry>

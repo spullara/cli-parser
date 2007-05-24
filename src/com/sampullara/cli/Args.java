@@ -105,7 +105,13 @@ public class Args {
                 String delimiter = argument.delimiter();
                 String description = argument.description();
                 try {
-                    Object defaultValue = field.getReadMethod().invoke(target, (Object[]) null);
+                    Method readMethod = field.getReadMethod();
+                    Object defaultValue;
+                    if (readMethod == null) {
+                        defaultValue = null;
+                    } else {
+                        defaultValue = readMethod.invoke(target, (Object[]) null);
+                    }
                     Class type = field.getPropertyType();
                     propertyUsage(prefix, name, alias, type, delimiter, description, defaultValue);
                 } catch (IllegalAccessException e) {
