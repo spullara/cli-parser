@@ -14,6 +14,13 @@ import java.lang.reflect.*;
 import java.util.*;
 
 public class Args {
+    /**
+     * Parse a set of arguments and populate the target with the appropriate values.
+     *
+     * @param target Either an instance or a class
+     * @param args The arguments you want to parse and populate
+     * @return The list of arguments that were not consumed
+     */
     public static List<String> parse(Object target, String[] args) {
         List<String> arguments = new ArrayList<String>();
         arguments.addAll(Arrays.asList(args));
@@ -39,59 +46,14 @@ public class Args {
                 throw new IllegalArgumentException("Invalid argument: " + argument);
             }
         }
-        if (arguments.size() > 0) {
-            processCommand(target, arguments);
-        }
         return arguments;
     }
 
-    private static void processCommand(Object target, List<String> arguments) {
-        Class clazz;
-        if (target instanceof Class) {
-            clazz = (Class) target;
-        } else {
-            clazz = target.getClass();
-        }
-        CommandMap commandMap = (CommandMap) clazz.getAnnotation(CommandMap.class);
-        if (commandMap != null) {
-            Map<String, Class> map = new HashMap<String, Class>();
-            for (Mapping mapping : commandMap.value()) {
-                map.put(mapping.name(), mapping.command());
-            }
-            boolean help = arguments.get(0).equals("help");
-            if (help) {
-                arguments.remove(0);
-            }
-            String commandName = arguments.get(0);
-            Class commandClass = map.get(commandName);
-            if (commandClass != null) {
-                Command command = getCommand(commandClass, arguments);
-                if (help) {
-                    PrintWriter writer = new PrintWriter(System.err, true);
-                    writer.println("Command: " + commandName + "  " + command.usage());
-                    command.help(writer);
-                } else {
-                    command.execute(arguments.toArray(new String[0]));
-                }
-            } else {
-                throw new IllegalArgumentException("Command not found: " + commandName);
-            }
-        }
-    }
-
-    private static Command getCommand(Class commandClass, List<String> arguments) {
-        Command command;
-        try {
-            command = (Command) commandClass.newInstance();
-            arguments.remove(0);
-        } catch (InstantiationException e) {
-            throw new IllegalArgumentException("Command could not be instantiated: " + commandClass.getName(), e);
-        } catch (IllegalAccessException e) {
-            throw new IllegalArgumentException("Command could not be accessed: " + commandClass.getName(), e);
-        }
-        return command;
-    }
-
+    /**
+     * Generate usage information based on the target annotations.
+     *
+     * @param target An instance or class.
+     */
     public static void usage(Object target) {
         Class clazz;
         if (target instanceof Class) {
@@ -110,22 +72,6 @@ public class Args {
             }
         } catch (IntrospectionException e) {
             // If its not a JavaBean we ignore it
-        }
-        commandUsage(target);
-    }
-
-    private static void commandUsage(Object target) {
-        CommandMap commandMap = target.getClass().getAnnotation(CommandMap.class);
-        if (commandMap != null) {
-            for (Mapping mapping : commandMap.value()) {
-                StringBuilder sb = new StringBuilder();
-                sb.append("  ");
-                sb.append(mapping.name());
-                sb.append(" ");
-                Command command = getCommand(mapping.command(), new ArrayList(Arrays.asList(mapping.name())));
-                sb.append(command.usage());
-                System.err.println(sb);
-            }
         }
     }
 

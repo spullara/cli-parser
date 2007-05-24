@@ -28,9 +28,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli.ipr" afterPath="$PROJECT_DIR$/cli.ipr" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli.iws" afterPath="$PROJECT_DIR$/cli.iws" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sampullara/cli/CommandMap.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/com/sampullara/cli/AddCommand.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/test/com/sampullara/cli/RunCommand.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/com/sampullara/cli/Args.java" afterPath="$PROJECT_DIR$/src/com/sampullara/cli/Args.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.xml" afterPath="$PROJECT_DIR$/build.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli.iml" afterPath="$PROJECT_DIR$/cli.iml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli.iws" afterPath="$PROJECT_DIR$/cli.iws" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sampullara/cli/Command.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/com/sampullara/cli/Mapping.java" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/test/com/sampullara/cli/ArgsTest.java" afterPath="$PROJECT_DIR$/test/com/sampullara/cli/ArgsTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/cli.ipr" afterPath="$PROJECT_DIR$/cli.ipr" />
     </list>
   </component>
   <component name="ChangeListSynchronizer" />
@@ -139,6 +147,11 @@
     <breakpoint_rules />
     <ui_properties />
   </component>
+  <component name="ErrorOptionsConfigurable.UI">
+    <option name="proportions">
+      <SplitterProportionsDataImpl />
+    </option>
+  </component>
   <component name="ErrorTreeViewConfiguration">
     <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
     <option name="HIDE_WARNINGS" value="false" />
@@ -165,44 +178,39 @@
       <file leaf-file-name="build.xml" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/build.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="20" column="51" selection-start="589" selection-end="589" vertical-scroll-proportion="0.36090225">
+            <state line="52" column="0" selection-start="1731" selection-end="1731" vertical-scroll-proportion="1.739645">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RunCommand.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/com/sampullara/cli/RunCommand.java">
+      <file leaf-file-name="Args.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Args.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="13" selection-start="275" selection-end="275" vertical-scroll-proportion="0.1938326">
+            <state line="77" column="0" selection-start="2515" selection-end="2515" vertical-scroll-proportion="1.3716815">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="emma-macros.xml" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/emma-macros.xml">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="11" column="0" selection-start="291" selection-end="291" vertical-scroll-proportion="0.018045112">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ArgsTest.java" pinned="false" current="true" current-in-tab="true">
+      <file leaf-file-name="ArgsTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/test/com/sampullara/cli/ArgsTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="15" column="13" selection-start="0" selection-end="8326" vertical-scroll-proportion="-3.61674">
-              <folding />
+            <state line="57" column="0" selection-start="2211" selection-end="2211" vertical-scroll-proportion="0.37288135">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AddCommand.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/test/com/sampullara/cli/AddCommand.java">
+      <file leaf-file-name="Argument.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Argument.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="13" column="13" selection-start="275" selection-end="275" vertical-scroll-proportion="0.1938326">
-              <folding />
+            <state line="13" column="18" selection-start="357" selection-end="357" vertical-scroll-proportion="0.16949153">
+              <folding>
+                <marker date="1177655955000" expanded="false" signature="173:289" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -210,7 +218,7 @@
       <file leaf-file-name="NativeMethodAccessorImpl.class" pinned="false" current="false" current-in-tab="false">
         <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/classes.jar!/sun/reflect/NativeMethodAccessorImpl.class">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="12" column="0" selection-start="442" selection-end="442" vertical-scroll-proportion="0.1981982">
+            <state line="12" column="0" selection-start="430" selection-end="430" vertical-scroll-proportion="0.38938054">
               <folding />
             </state>
           </provider>
@@ -315,19 +323,9 @@
           <option name="myItemId" value="cli" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
         </PATH_ELEMENT>
-      </PATH>
-      <PATH>
         <PATH_ELEMENT>
-          <option name="myItemId" value="cli" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="cli" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+          <option name="myItemId" value="Libraries" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.LibraryGroupNode" />
         </PATH_ELEMENT>
       </PATH>
       <PATH>
@@ -341,10 +339,6 @@
         </PATH_ELEMENT>
         <PATH_ELEMENT>
           <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
-          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-        </PATH_ELEMENT>
-        <PATH_ELEMENT>
-          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/test-output" />
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
@@ -370,10 +364,44 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="cli" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="cli" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="PsiDirectory:$PROJECT_DIR$/src/com/sampullara/cli" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
     </subPane>
   </component>
   <component name="ProjectReloadState">
     <option name="STATE" value="0" />
+  </component>
+  <component name="ProjectRootConfigurable.UI">
+    <option name="proportions">
+      <SplitterProportionsDataImpl>
+        <option name="proportions">
+          <collection>
+            <option value="0.11111111" />
+          </collection>
+        </option>
+      </SplitterProportionsDataImpl>
+    </option>
+    <option name="lastEditedConfigurable" value="junit-4.0.jar" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="0.11111111" version="1" splitterProportion="0.5">
@@ -414,7 +442,24 @@
     <option name="referencePos" value="0" />
   </component>
   <component name="RestoreUpdateTree" />
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.All Tests">
+    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <module name="" />
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
       <module name="" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
@@ -431,16 +476,6 @@
         <value defaultName="wholeProject" />
       </option>
     </configuration>
-    <configuration default="true" type="Application" factoryName="Application" enabled="false" merge="false">
-      <option name="MAIN_CLASS_NAME" />
-      <option name="VM_PARAMETERS" />
-      <option name="PROGRAM_PARAMETERS" />
-      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
-      <option name="ALTERNATIVE_JRE_PATH" />
-      <option name="ENABLE_SWING_INSPECTOR" value="false" />
-      <module name="" />
-    </configuration>
     <configuration default="true" type="Applet" factoryName="Applet">
       <module name="" />
       <option name="MAIN_CLASS_NAME" />
@@ -453,12 +488,26 @@
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
     </configuration>
-    <configuration default="true" type="Remote" factoryName="Remote">
-      <option name="USE_SOCKET_TRANSPORT" value="true" />
-      <option name="SERVER_MODE" value="false" />
-      <option name="SHMEM_ADDRESS" value="javadebug" />
-      <option name="HOST" value="localhost" />
-      <option name="PORT" value="5005" />
+    <configuration default="false" name="All Tests" type="JUnit" factoryName="JUnit" enabled="false" merge="false">
+      <module name="cli" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" value="" />
+      <option name="PACKAGE_NAME" value="com.sampullara.cli" />
+      <option name="MAIN_CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="WORKING_DIRECTORY" value="file://$PROJECT_DIR$" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="wholeProject" />
+      </option>
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
     </configuration>
     <configuration selected="false" default="true" type="TestNG" factoryName="TestNG">
       <module name="" />
@@ -531,6 +580,11 @@
   <component name="SQLPlugin.ProjectConfiguration">
     <queries />
   </component>
+  <component name="ScopeChooserConfigurable.UI">
+    <option name="proportions">
+      <SplitterProportionsDataImpl />
+    </option>
+  </component>
   <component name="ScopeViewComponent">
     <subPane subId="Project">
       <PATH>
@@ -590,6 +644,7 @@
     <option name="UPDATE_RECURSIVELY" value="true" />
     <option name="MERGE_DRY_RUN" value="false" />
     <configuration useDefault="true">/Users/samp/.subversion</configuration>
+    <upgradeMode>none</upgradeMode>
   </component>
   <component name="TodoView" selected-index="0">
     <todo-panel id="selected-file">
@@ -606,16 +661,17 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1440" height="825" extended-state="6" />
+    <frame x="337" y="139" width="1440" height="828" extended-state="0" />
     <editor active="false" />
     <layout>
+      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="7" />
-      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19626169" order="0" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.19626169" order="0" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.3293954" order="1" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.24976076" order="1" />
-      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32827586" order="8" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32561308" order="8" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="6" />
       <window_info id="Module Dependencies" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Dependency Viewer" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
@@ -623,7 +679,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="3" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.07985611" order="1" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4413793" order="2" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.4400545" order="2" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" order="2" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="0" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" order="4" />
@@ -631,7 +687,6 @@
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Duplicates" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
-      <window_info id="SQL" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Regex" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="0" />
       <window_info id="IdeaSpring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" order="8" />
@@ -748,18 +803,37 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Mapping.java">
+    <entry file="file://$PROJECT_DIR$/emma-macros.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="25" column="0" selection-start="499" selection-end="499" vertical-scroll-proportion="0.6976744">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state line="11" column="0" selection-start="291" selection-end="291" vertical-scroll-proportion="0.017964073">
+          <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/CommandMap.java">
+    <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/classes.jar!/sun/reflect/NativeMethodAccessorImpl.class">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="18" selection-start="376" selection-end="376" vertical-scroll-proportion="0.41860464">
+        <state line="12" column="0" selection-start="430" selection-end="430" vertical-scroll-proportion="0.38938054">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/build.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="52" column="0" selection-start="1731" selection-end="1731" vertical-scroll-proportion="1.739645">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Args.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="77" column="0" selection-start="2515" selection-end="2515" vertical-scroll-proportion="1.3716815">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/test/com/sampullara/cli/ArgsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="57" column="0" selection-start="2211" selection-end="2211" vertical-scroll-proportion="0.37288135">
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
@@ -768,68 +842,10 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Argument.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="0" selection-start="291" selection-end="339" vertical-scroll-proportion="0.27906978">
+        <state line="13" column="18" selection-start="357" selection-end="357" vertical-scroll-proportion="0.16949153">
           <folding>
-            <element signature="imports" expanded="true" />
+            <marker date="1177655955000" expanded="false" signature="173:289" placeholder="..." />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Command.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="26" selection-start="290" selection-end="290" vertical-scroll-proportion="0.3627907">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/com/sampullara/cli/Args.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="358" column="106" selection-start="14651" selection-end="14651" vertical-scroll-proportion="5.9694657">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/emma-macros.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="11" column="0" selection-start="291" selection-end="291" vertical-scroll-proportion="0.018045112">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="jar:///System/Library/Frameworks/JavaVM.framework/Versions/1.5.0/Classes/classes.jar!/sun/reflect/NativeMethodAccessorImpl.class">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="12" column="0" selection-start="442" selection-end="442" vertical-scroll-proportion="0.1981982">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/build.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="20" column="51" selection-start="589" selection-end="589" vertical-scroll-proportion="0.36090225">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/sampullara/cli/RunCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="275" selection-end="275" vertical-scroll-proportion="0.1938326">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/sampullara/cli/AddCommand.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="13" column="13" selection-start="275" selection-end="275" vertical-scroll-proportion="0.1938326">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/test/com/sampullara/cli/ArgsTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="15" column="13" selection-start="0" selection-end="8326" vertical-scroll-proportion="-3.61674">
-          <folding />
         </state>
       </provider>
     </entry>

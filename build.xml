@@ -4,7 +4,7 @@
   -->
 
 <project name="cli" default="all">
-    <target name="all" depends="clean,compile,test"/>
+    <target name="all" depends="clean,compile,jar,test"/>
 
     <target name="clean">
         <delete dir="classes"/>
@@ -18,7 +18,12 @@
     </target>
 
     <target name="jar">
-        <jar basedir="classes" destfile="cli.jar"/>
+        <exec executable="svn" output="svninfo">
+            <arg value="info"/>
+        </exec>
+        <property file="svninfo"/>
+        <delete file="svninfo"/>
+        <jar basedir="classes" destfile="cli-${Revision}.jar"/>
     </target>
 
     <path id="test.classpath">
@@ -26,8 +31,6 @@
         <pathelement location="test-classes"/>
         <pathelement location="test-lib/testng-4.2-jdk15.jar"/>
     </path>
-
-    <taskdef name="testng" classpath="test-lib/testng-4.2-jdk15.jar" classname="org.testng.TestNGAntTask"/>
 
     <property name="repository.dir" value=".test-lib"/>
     <property name="repository.online" value="true"/>
@@ -39,13 +42,15 @@
         <mkdir dir="test-classes"/>
         <javac srcdir="test" destdir="test-classes" classpathref="test.classpath"/>
         <emma-instrument outdir="emma" instrpath="classes"/>
-        <testng >
+        <junit forkmode="once" dir="classes" printsummary="true">
             <classpath>
                 <path refid="test.classpath"/>
                 <path refid="emma.classpath"/>
             </classpath>
-            <classfileset dir="test-classes" includes="**/*Test.class"/>
-        </testng>
+            <batchtest todir="test-output">
+                <fileset dir="test-classes" includes="**/*Test.class"/>
+            </batchtest>
+        </junit>
         <emma-report outdir="emma" src="src" instrpath="classes"/>
     </target>
 </project>
