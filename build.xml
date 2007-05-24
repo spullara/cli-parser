@@ -10,6 +10,9 @@
         <delete dir="classes"/>
         <delete dir="test-classes"/>
         <delete dir="test-output"/>
+        <delete dir="emma"/>
+        <delete file="coverage.ec"/>
+        <delete dir="." includes="cli-*.jar"/>
     </target>
 
     <target name="compile">
