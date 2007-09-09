@@ -23,39 +23,31 @@
     <target name="jar">
         <exec executable="svn" output="svninfo">
             <arg value="info"/>
+            <arg value="--xml"/>
         </exec>
-        <property file="svninfo"/>
+        <xmlproperty file="svninfo"/>
         <delete file="svninfo"/>
-        <jar basedir="classes" destfile="cli-${Revision}.jar"/>
+        <jar basedir="classes" destfile="cli-${info.entry.commit(revision)}.jar"/>
     </target>
 
     <path id="test.classpath">
         <pathelement location="classes"/>
         <pathelement location="test-classes"/>
-        <pathelement location="test-lib/testng-4.2-jdk15.jar"/>
+        <pathelement location="test-lib/junit-4.0.jar"/>
     </path>
-
-    <property name="repository.dir" value=".test-lib"/>
-    <property name="repository.online" value="true"/>
-
-    <import file="repository-macros.xml"/>
-    <import file="emma-macros.xml"/>
 
     <target name="test">
         <mkdir dir="test-classes"/>
         <mkdir dir="test-output"/>
         <javac srcdir="test" destdir="test-classes" classpathref="test.classpath"/>
-        <emma-instrument outdir="emma" instrpath="classes"/>
         <junit fork="true" forkmode="once" printsummary="true">
             <classpath>
                 <path refid="test.classpath"/>
-                <path refid="emma.classpath"/>
             </classpath>
             <formatter type="xml"/>
             <batchtest todir="test-output">
                 <fileset dir="test-classes" includes="**/*Test.class"/>
             </batchtest>
         </junit>
-        <emma-report outdir="emma" src="src" instrpath="classes"/>
     </target>
 </project>
