@@ -4,6 +4,7 @@ import junit.framework.TestCase;
 
 import java.io.File;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * Created by IntelliJ IDEA.
@@ -26,6 +27,26 @@ public class ArgsTest extends TestCase {
         assertEquals(2, tc.values[1].intValue());
         assertEquals("dave", tc.strings[1]);
         assertEquals(2, extra.size());
+    }
+
+    public void testArgsParseWithProperties() {
+        TestCommand tc = new TestCommand();
+        Args.usage(tc);
+        Properties p = new Properties();
+        p.put("input", "inputfile");
+        p.put("o", "outputfile");
+        p.put("someflag", "true");
+        p.put("m", "10");
+        p.put("values", "1:2:3");
+        p.put("strings", "sam;dave;jolly");
+        Args.parse(tc, p);
+        assertEquals("inputfile", tc.inputFilename);
+        assertEquals(new File("outputfile"), tc.outputFile);
+        assertEquals(true, tc.someflag);
+        assertEquals(10, tc.minimum.intValue());
+        assertEquals(3, tc.values.length);
+        assertEquals(2, tc.values[1].intValue());
+        assertEquals("dave", tc.strings[1]);
     }
 
     public void testMethodArgsParse() {
