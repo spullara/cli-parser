@@ -93,7 +93,7 @@ public class Args {
                 setField(type, field, target, value, argument.delimiter());
             } else {
                 if (argument.required()) {
-                    throw new IllegalArgumentException("You must set argument " + argument.value());
+                    throw new IllegalArgumentException("You must set argument " + name);
                 }
             }
         }
@@ -118,7 +118,7 @@ public class Args {
                     setProperty(type, property, target, value, argument.delimiter());
                 } else {
                     if (argument.required()) {
-                        throw new IllegalArgumentException("You must set argument " + argument.value());
+                        throw new IllegalArgumentException("You must set argument " + name);
                     }
                 }
             }
@@ -149,7 +149,8 @@ public class Args {
                 }
             }
             if (!set && argument.required()) {
-                throw new IllegalArgumentException("You must set argument " + argument.value());
+                String name = getName(argument,  field);
+                throw new IllegalArgumentException("You must set argument " + name);
             }
         }
     }
@@ -180,7 +181,8 @@ public class Args {
                     }
                 }
                 if (!set && argument.required()) {
-                    throw new IllegalArgumentException("You must set argument " + argument.value());
+                    String name = getName(argument,  property);
+                    throw new IllegalArgumentException("You must set argument " + name);
                 }
             }
         }
