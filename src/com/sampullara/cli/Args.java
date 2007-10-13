@@ -274,7 +274,8 @@ public class Args {
             sb.append(")");
         }
         if (type == Boolean.TYPE || type == Boolean.class) {
-            sb.append(" [flag]");
+            sb.append(" [flag] ");
+            sb.append(description);
         } else {
             sb.append(" [");
             if (type.isArray()) {
