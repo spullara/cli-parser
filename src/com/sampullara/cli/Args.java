@@ -28,17 +28,17 @@ public class Args {
             clazz = (Class) target;
         } else {
             clazz = target.getClass();
+            try {
+                BeanInfo info = Introspector.getBeanInfo(clazz);
+                for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
+                    processProperty(target, pd, arguments);
+                }
+            } catch (IntrospectionException e) {
+                // If its not a JavaBean we ignore it
+            }
         }
         for (Field field : clazz.getDeclaredFields()) {
             processField(target, field, arguments);
-        }
-        try {
-            BeanInfo info = Introspector.getBeanInfo(clazz);
-            for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
-                processProperty(target, pd, arguments);
-            }
-        } catch (IntrospectionException e) {
-            // If its not a JavaBean we ignore it
         }
         for (String argument : arguments) {
             if (argument.startsWith("-")) {
@@ -62,17 +62,17 @@ public class Args {
             clazz = (Class) target;
         } else {
             clazz = target.getClass();
+            try {
+                BeanInfo info = Introspector.getBeanInfo(clazz);
+                for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
+                    processProperty(target, pd, arguments);
+                }
+            } catch (IntrospectionException e) {
+                // If its not a JavaBean we ignore it
+            }
         }
         for (Field field : clazz.getDeclaredFields()) {
             processField(target, field, arguments);
-        }
-        try {
-            BeanInfo info = Introspector.getBeanInfo(clazz);
-            for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
-                processProperty(target, pd, arguments);
-            }
-        } catch (IntrospectionException e) {
-            // If its not a JavaBean we ignore it
         }
     }
 

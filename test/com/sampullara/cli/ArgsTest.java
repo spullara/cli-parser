@@ -29,6 +29,38 @@ public class ArgsTest extends TestCase {
         assertEquals(2, extra.size());
     }
 
+    public void testStaticFields() {
+        Args.usage(TestCommand4.class);
+        String[] args = {"-input", "inputfile", "-output", "outputfile"};
+        List<String> extra = Args.parse(TestCommand4.class, args);
+        assertEquals("inputfile", TestCommand4.input);
+        assertEquals("outputfile", TestCommand4.output);
+
+        Properties p = new Properties();
+        p.put("input", "inputfile");
+        p.put("output", "outputfile");
+        Args.parse(TestCommand4.class, p);
+        assertEquals("inputfile", TestCommand4.input);
+        assertEquals("outputfile", TestCommand4.output);
+    }
+
+    public void testBadArgsParse() {
+        String[] args = {"-fred", "inputfile", "-output", "outputfile"};
+        try {
+            List<String> extra = Args.parse(TestCommand4.class, args);
+            fail("Should have thrown an exception");
+        } catch (IllegalArgumentException iae) {
+            assertEquals("Invalid argument: -fred", iae.getMessage());
+        }
+        args = new String[] {"-input", "inputfile"};
+        try {
+            List<String> extra = Args.parse(TestCommand4.class, args);
+            fail("Should have thrown an exception");
+        } catch (IllegalArgumentException iae) {
+            assertEquals("You must set argument output", iae.getMessage());
+        }
+    }
+
     public void testArgsParseWithProperties() {
         TestCommand tc = new TestCommand();
         Args.usage(tc);
@@ -99,6 +131,12 @@ public class ArgsTest extends TestCase {
         private Integer minimum;
 
         @Argument(description = "List of values", delimiter = ":")
+        public void setValues(Integer[] values) {
+            this.values = values;
+        }
+        public Integer[] getValues() {
+            return values;
+        }
         private Integer[] values;
 
         @Argument(description = "List of strings", delimiter = ";")
@@ -236,4 +274,11 @@ public class ArgsTest extends TestCase {
         }
     }
 
+    public static class TestCommand4 {
+        @Argument()
+        private static String input;
+
+        @Argument(required = true)
+        private static String output;
+    }
 }
