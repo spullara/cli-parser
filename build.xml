@@ -27,7 +27,7 @@
         </exec>
         <xmlproperty file="svninfo"/>
         <delete file="svninfo"/>
-        <jar basedir="classes" destfile="cli-${info.entry.commit(revision)}.jar"/>
+        <jar basedir="classes" destfile="cli-r${info.entry.commit(revision)}.jar"/>
     </target>
 
     <path id="test.classpath">
