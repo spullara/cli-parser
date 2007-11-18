@@ -35,13 +35,6 @@ public class ArgsTest extends TestCase {
         List<String> extra = Args.parse(TestCommand4.class, args);
         assertEquals("inputfile", TestCommand4.input);
         assertEquals("outputfile", TestCommand4.output);
-
-        Properties p = new Properties();
-        p.put("input", "inputfile");
-        p.put("output", "outputfile");
-        Args.parse(TestCommand4.class, p);
-        assertEquals("inputfile", TestCommand4.input);
-        assertEquals("outputfile", TestCommand4.output);
     }
 
     public void testBadArgsParse() {
@@ -59,26 +52,6 @@ public class ArgsTest extends TestCase {
         } catch (IllegalArgumentException iae) {
             assertEquals("You must set argument output", iae.getMessage());
         }
-    }
-
-    public void testArgsParseWithProperties() {
-        TestCommand tc = new TestCommand();
-        Args.usage(tc);
-        Properties p = new Properties();
-        p.put("input", "inputfile");
-        p.put("o", "outputfile");
-        p.put("someflag", "true");
-        p.put("m", "10");
-        p.put("values", "1:2:3");
-        p.put("strings", "sam;dave;jolly");
-        Args.parse(tc, p);
-        assertEquals("inputfile", tc.inputFilename);
-        assertEquals(new File("outputfile"), tc.outputFile);
-        assertEquals(true, tc.someflag);
-        assertEquals(10, tc.minimum.intValue());
-        assertEquals(3, tc.values.length);
-        assertEquals(2, tc.values[1].intValue());
-        assertEquals("dave", tc.strings[1]);
     }
 
     public void testMethodArgsParse() {

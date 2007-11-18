@@ -48,83 +48,6 @@ public class Args {
         return arguments;
     }
 
-    /**
-     * Parse properties instead of String arguments.  Any additional arguments need to be passed some other way.
-     * This is often used in a second pass when the property filename is passed on the command line.  Because of
-     * required properties you must be careful to set them all in the property file.
-     *
-     * @param target    Either an instance or a class
-     * @param arguments The properties that contain the arguments
-     */
-    public static void parse(Object target, Properties arguments) {
-        Class clazz;
-        if (target instanceof Class) {
-            clazz = (Class) target;
-        } else {
-            clazz = target.getClass();
-            try {
-                BeanInfo info = Introspector.getBeanInfo(clazz);
-                for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
-                    processProperty(target, pd, arguments);
-                }
-            } catch (IntrospectionException e) {
-                // If its not a JavaBean we ignore it
-            }
-        }
-        for (Field field : clazz.getDeclaredFields()) {
-            processField(target, field, arguments);
-        }
-    }
-
-    private static void processField(Object target, Field field, Properties arguments) {
-        Argument argument = field.getAnnotation(Argument.class);
-        if (argument != null) {
-            String name = getName(argument, field);
-            String alias = getAlias(argument);
-            Class type = field.getType();
-            Object value = arguments.get(name);
-            if (value == null && alias != null) {
-                value = arguments.get(alias);
-            }
-            if (value != null) {
-                if (type == Boolean.TYPE || type == Boolean.class) {
-                    value = true;
-                }
-                setField(type, field, target, value, argument.delimiter());
-            } else {
-                if (argument.required()) {
-                    throw new IllegalArgumentException("You must set argument " + name);
-                }
-            }
-        }
-    }
-
-    private static void processProperty(Object target, PropertyDescriptor property, Properties arguments) {
-        Method writeMethod = property.getWriteMethod();
-        if (writeMethod != null) {
-            Argument argument = writeMethod.getAnnotation(Argument.class);
-            if (argument != null) {
-                String name = getName(argument, property);
-                String alias = getAlias(argument);
-                Object value = arguments.get(name);
-                if (value == null && alias != null) {
-                    value = arguments.get(alias);
-                }
-                if (value != null) {
-                    Class type = property.getPropertyType();
-                    if (type == Boolean.TYPE || type == Boolean.class) {
-                        value = true;
-                    }
-                    setProperty(type, property, target, value, argument.delimiter());
-                } else {
-                    if (argument.required()) {
-                        throw new IllegalArgumentException("You must set argument " + name);
-                    }
-                }
-            }
-        }
-    }
-
     private static void processField(Object target, Field field, List<String> arguments) {
         Argument argument = field.getAnnotation(Argument.class);
         if (argument != null) {
@@ -311,7 +234,7 @@ public class Args {
         return typeName;
     }
 
-    private static String getName(Argument argument, PropertyDescriptor property) {
+    static String getName(Argument argument, PropertyDescriptor property) {
         String name = argument.value();
         if (name.equals("")) {
             name = property.getName();
@@ -335,7 +258,7 @@ public class Args {
         return value;
     }
 
-    private static void setProperty(Class type, PropertyDescriptor property, Object target, Object value, String delimiter) {
+    static void setProperty(Class type, PropertyDescriptor property, Object target, Object value, String delimiter) {
         try {
             value = getValue(type, value, delimiter);
             property.getWriteMethod().invoke(target, value);
@@ -348,7 +271,7 @@ public class Args {
         }
     }
 
-    private static String getAlias(Argument argument) {
+    static String getAlias(Argument argument) {
         String alias = argument.alias();
         if (alias.equals("")) {
             alias = null;
@@ -356,7 +279,7 @@ public class Args {
         return alias;
     }
 
-    private static String getName(Argument argument, Field field) {
+    static String getName(Argument argument, Field field) {
         String name = argument.value();
         if (name.equals("")) {
             name = field.getName();
@@ -364,7 +287,7 @@ public class Args {
         return name;
     }
 
-    private static void setField(Class type, Field field, Object target, Object value, String delimiter) {
+    static void setField(Class type, Field field, Object target, Object value, String delimiter) {
         makeAccessible(field);
         try {
             value = getValue(type, value, delimiter);
