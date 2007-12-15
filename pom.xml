@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.sampullara.cli</groupId>
+  <artifactId>cli-parser</artifactId>
+  <packaging>jar</packaging>
+  <name>CLI Parser</name>
+  <version>1.0-SNAPSHOT</version>
+  <url>http://code.google.com/p/cli-parser/</url>
+  <description>An annotation-based command line interface parser.</description>
+
+  <scm>
+    <connection>scm:svn:http://cli-parser.googlecode.com/svn/trunk/</connection>
+    <developerConnection>scm:svn:https://cli-parser.googlecode.com/svn/trunk/</developerConnection>
+    <url>http://cli-parser.googlecode.com/svn/</url>
+  </scm>
+
+  <issueManagement>
+    <system>Google Code</system>
+    <url>http://code.google.com/p/cli-parser/issues/list</url>
+  </issueManagement>
+
+  <licenses>
+    <license>
+      <name>The Apache Software License, Version 2.0</name>
+      <url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+
+  <distributionManagement>
+    <repository>
+      <id>javarants</id>
+      <name>libs-snapshots</name>
+      <url>http://maven.javarants.com/artifactory/libs-snapshots</url>
+    </repository>
+  </distributionManagement>
+
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.0</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
