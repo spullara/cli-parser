@@ -216,7 +216,12 @@ public class Args {
             if (defaultValue != null) {
                 sb.append(" (");
                 if (type.isArray()) {
-                    sb.append(Arrays.asList(defaultValue));
+                    List list = new ArrayList();
+                    int len = Array.getLength(defaultValue);
+                    for (int i = 0; i < len; i++) {
+                        list.add(Array.get(defaultValue, i));
+                    }
+                    sb.append(list);
                 } else {
                     sb.append(defaultValue);
                 }
