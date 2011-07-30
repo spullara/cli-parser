@@ -8,17 +8,6 @@
   <url>http://code.google.com/p/cli-parser/</url>
   <description>An annotation-based command line interface parser.</description>
 
-  <scm>
-    <connection>scm:svn:http://cli-parser.googlecode.com/svn/trunk/</connection>
-    <developerConnection>scm:svn:https://cli-parser.googlecode.com/svn/trunk/</developerConnection>
-    <url>http://cli-parser.googlecode.com/svn/</url>
-  </scm>
-
-  <issueManagement>
-    <system>Google Code</system>
-    <url>http://code.google.com/p/cli-parser/issues/list</url>
-  </issueManagement>
-
   <licenses>
     <license>
       <name>The Apache Software License, Version 2.0</name>
