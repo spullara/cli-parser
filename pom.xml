@@ -16,6 +16,12 @@
     </license>
   </licenses>
 
+  <scm>
+    <connection>scm:git:git@github.com:spullara/cli-parser.git</connection>
+    <developerConnection>scm:git:git@github.com:spullara/cli-parser.git</developerConnection>
+    <url>git@github.com:spullara/cli-parser.git</url>
+  </scm>
+
   <distributionManagement>
     <repository>
       <id>sonatype-nexus-staging</id>
