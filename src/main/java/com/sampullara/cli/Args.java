@@ -9,6 +9,7 @@ import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
 import java.beans.PropertyDescriptor;
+import java.io.PrintStream;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -117,27 +118,37 @@ public class Args {
      * @param target An instance or class.
      */
     public static void usage(Object target) {
+        usage(System.err, target);
+    }
+
+    /**
+     * Generate usage information based on the target annotations.
+     *
+     * @param errStream A {@link java.io.PrintStream} to print the usage information to.
+     * @param target An instance or class.
+     */
+    public static void usage(PrintStream errStream, Object target) {
         Class clazz;
         if (target instanceof Class) {
             clazz = (Class) target;
         } else {
             clazz = target.getClass();
         }
-        System.err.println("Usage: " + clazz.getName());
+        errStream.println("Usage: " + clazz.getName());
         for (Field field : clazz.getDeclaredFields()) {
-            fieldUsage(target, field);
+            fieldUsage(errStream, target, field);
         }
         try {
             BeanInfo info = Introspector.getBeanInfo(clazz);
             for (PropertyDescriptor pd : info.getPropertyDescriptors()) {
-                propertyUsage(target, pd);
+                propertyUsage(errStream, target, pd);
             }
         } catch (IntrospectionException e) {
             // If its not a JavaBean we ignore it
         }
     }
 
-    private static void fieldUsage(Object target, Field field) {
+    private static void fieldUsage(PrintStream errStream, Object target, Field field) {
         Argument argument = field.getAnnotation(Argument.class);
         if (argument != null) {
             String name = getName(argument, field);
@@ -149,14 +160,14 @@ public class Args {
             try {
                 Object defaultValue = field.get(target);
                 Class type = field.getType();
-                propertyUsage(prefix, name, alias, type, delimiter, description, defaultValue);
+                propertyUsage(errStream, prefix, name, alias, type, delimiter, description, defaultValue);
             } catch (IllegalAccessException e) {
                 throw new IllegalArgumentException("Could not use thie field " + field + " as an argument field", e);
             }
         }
     }
 
-    private static void propertyUsage(Object target, PropertyDescriptor field) {
+    private static void propertyUsage(PrintStream errStream, Object target, PropertyDescriptor field) {
         Method writeMethod = field.getWriteMethod();
         if (writeMethod != null) {
             Argument argument = writeMethod.getAnnotation(Argument.class);
@@ -175,7 +186,7 @@ public class Args {
                         defaultValue = readMethod.invoke(target, (Object[]) null);
                     }
                     Class type = field.getPropertyType();
-                    propertyUsage(prefix, name, alias, type, delimiter, description, defaultValue);
+                    propertyUsage(errStream, prefix, name, alias, type, delimiter, description, defaultValue);
                 } catch (IllegalAccessException e) {
                     throw new IllegalArgumentException("Could not use thie field " + field + " as an argument field", e);
                 } catch (InvocationTargetException e) {
@@ -186,7 +197,7 @@ public class Args {
 
     }
 
-    private static void propertyUsage(String prefix, String name, String alias, Class type, String delimiter, String description, Object defaultValue) {
+    private static void propertyUsage(PrintStream errStream, String prefix, String name, String alias, Class type, String delimiter, String description, Object defaultValue) {
         StringBuilder sb = new StringBuilder("  ");
         sb.append(prefix);
         sb.append(name);
@@ -229,7 +240,7 @@ public class Args {
             }
 
         }
-        System.err.println(sb);
+        errStream.println(sb);
     }
 
     private static String getTypeName(Class type) {
