@@ -3,15 +3,12 @@ package com.sampullara.cli;
 import junit.framework.TestCase;
 
 import java.io.File;
-import java.util.List;
 import java.util.Properties;
 
 /**
- * Created by IntelliJ IDEA.
  * User: sam
  * Date: Dec 27, 2005
  * Time: 3:31:44 PM
- * To change this template use File | Settings | File Templates.
  */
 public class PropertiesArgsTest extends TestCase {
     public void testArgsParseWithProperties() {
