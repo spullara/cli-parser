@@ -60,7 +60,15 @@ in a wrong command line argument you will get the usage message:
       -port (-p) [Integer] Redis port (6379)
 
 That message will print out the names and aliases of the arguments, type, description and a default value
-for the parameter if there is one.
+for the parameter if there is one. You can add it to your code with:
+
+    <dependency>
+      <groupId>com.github.spullara.cli-parser</groupId>
+      <artifactId>cli-parser</artifactId>
+      <version>1.1</version>
+    </dependency>
+    
+Here is the license:
 
     Copyright 2012 Sam Pullara
 
