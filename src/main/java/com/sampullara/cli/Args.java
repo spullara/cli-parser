@@ -5,6 +5,7 @@
 
 package com.sampullara.cli;
 
+
 import java.beans.BeanInfo;
 import java.beans.IntrospectionException;
 import java.beans.Introspector;
@@ -24,7 +25,7 @@ public class Args {
     public static List<String> parse(Object target, String[] args) {
         List<String> arguments = new ArrayList<String>();
         arguments.addAll(Arrays.asList(args));
-        Class clazz;
+        Class<?> clazz;
         if (target instanceof Class) {
             clazz = (Class) target;
         } else {
@@ -64,7 +65,7 @@ public class Args {
                     arg = arg.substring(prefix.length());
                     if (arg.equals(name) || (alias != null && arg.equals(alias))) {
                         i.remove();
-                        Class type = field.getType();
+                        Class<?> type = field.getType();
                         value = consumeArgumentValue(type, argument, i);
                         setField(type, field, target, value, delimiter);
                         set = true;
@@ -96,7 +97,7 @@ public class Args {
                         arg = arg.substring(prefix.length());
                         if (arg.equals(name) || (alias != null && arg.equals(alias))) {
                             i.remove();
-                            Class type = property.getPropertyType();
+                            Class<?> type = property.getPropertyType();
                             value = consumeArgumentValue(type, argument, i);
                             setProperty(type, property, target, value, delimiter);
                             set = true;
@@ -128,7 +129,7 @@ public class Args {
      * @param target An instance or class.
      */
     public static void usage(PrintStream errStream, Object target) {
-        Class clazz;
+        Class<?> clazz;
         if (target instanceof Class) {
             clazz = (Class) target;
         } else {
@@ -159,7 +160,7 @@ public class Args {
             makeAccessible(field);
             try {
                 Object defaultValue = field.get(target);
-                Class type = field.getType();
+                Class<?> type = field.getType();
                 propertyUsage(errStream, prefix, name, alias, type, delimiter, description, defaultValue);
             } catch (IllegalAccessException e) {
                 throw new IllegalArgumentException("Could not use thie field " + field + " as an argument field", e);
@@ -185,7 +186,7 @@ public class Args {
                     } else {
                         defaultValue = readMethod.invoke(target, (Object[]) null);
                     }
-                    Class type = field.getPropertyType();
+                    Class<?> type = field.getPropertyType();
                     propertyUsage(errStream, prefix, name, alias, type, delimiter, description, defaultValue);
                 } catch (IllegalAccessException e) {
                     throw new IllegalArgumentException("Could not use thie field " + field + " as an argument field", e);
@@ -197,7 +198,7 @@ public class Args {
 
     }
 
-    private static void propertyUsage(PrintStream errStream, String prefix, String name, String alias, Class type, String delimiter, String description, Object defaultValue) {
+    private static void propertyUsage(PrintStream errStream, String prefix, String name, String alias, Class<?> type, String delimiter, String description, Object defaultValue) {
         StringBuilder sb = new StringBuilder("  ");
         sb.append(prefix);
         sb.append(name);
@@ -227,7 +228,7 @@ public class Args {
             if (defaultValue != null) {
                 sb.append(" (");
                 if (type.isArray()) {
-                    List list = new ArrayList();
+                    List<Object> list = new ArrayList<Object>();
                     int len = Array.getLength(defaultValue);
                     for (int i = 0; i < len; i++) {
                         list.add(Array.get(defaultValue, i));
@@ -243,7 +244,7 @@ public class Args {
         errStream.println(sb);
     }
 
-    private static String getTypeName(Class type) {
+    private static String getTypeName(Class<?> type) {
         String typeName = type.getName();
         int beginIndex = typeName.lastIndexOf(".");
         typeName = typeName.substring(beginIndex + 1);
@@ -259,7 +260,7 @@ public class Args {
 
     }
 
-    private static Object consumeArgumentValue(Class type, Argument argument, Iterator<String> i) {
+    private static Object consumeArgumentValue(Class<?> type, Argument argument, Iterator<String> i) {
         Object value;
         if (type == Boolean.TYPE || type == Boolean.class) {
             value = true;
@@ -274,7 +275,7 @@ public class Args {
         return value;
     }
 
-    static void setProperty(Class type, PropertyDescriptor property, Object target, Object value, String delimiter) {
+    static void setProperty(Class<?> type, PropertyDescriptor property, Object target, Object value, String delimiter) {
         try {
             value = getValue(type, value, delimiter);
             property.getWriteMethod().invoke(target, value);
@@ -303,7 +304,7 @@ public class Args {
         return name;
     }
 
-    static void setField(Class type, Field field, Object target, Object value, String delimiter) {
+    static void setField(Class<?> type, Field field, Object target, Object value, String delimiter) {
         makeAccessible(field);
         try {
             value = getValue(type, value, delimiter);
@@ -315,7 +316,7 @@ public class Args {
         }
     }
 
-    private static Object getValue(Class type, Object value, String delimiter) throws NoSuchMethodException {
+    private static Object getValue(Class<?> type, Object value, String delimiter) throws NoSuchMethodException {
         if (type != String.class && type != Boolean.class && type != Boolean.TYPE) {
             if (type.isArray()) {
                 String string = (String) value;
@@ -337,8 +338,8 @@ public class Args {
         return value;
     }
 
-    private static Object createValue(Class type, Object value) throws NoSuchMethodException {
-        Constructor init = type.getDeclaredConstructor(String.class);
+    private static Object createValue(Class<?> type, Object value) throws NoSuchMethodException {
+        Constructor<?> init = type.getDeclaredConstructor(String.class);
         try {
             value = init.newInstance(value);
         } catch (Exception e) {
