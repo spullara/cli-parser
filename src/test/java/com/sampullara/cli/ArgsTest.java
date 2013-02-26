@@ -26,6 +26,21 @@ public class ArgsTest extends TestCase {
         assertEquals(2, extra.size());
     }
 
+    public void testMultipleArgs() {
+      TestCommand tc = new TestCommand();
+      Args.usage(tc);
+      String[] args = {"-input", "inputfile", "-o", "outputfile", "extra1", "-someflag", "extra2", "-m", "10", "-values", "1", "-values", "2", "-values", "3", "-strings", "sam", "-strings", "dave", "-strings", "jolly"};
+      List<String> extra = Args.parse(tc, args);
+      assertEquals("inputfile", tc.inputFilename);
+      assertEquals(new File("outputfile"), tc.outputFile);
+      assertEquals(true, tc.someflag);
+      assertEquals(10, tc.minimum.intValue());
+      assertEquals(3, tc.values.length);
+      assertEquals(2, tc.values[1].intValue());
+      assertEquals("dave", tc.strings[1]);
+      assertEquals(2, extra.size());
+    }
+
     public void testStaticFields() {
         Args.usage(TestCommand4.class);
         String[] args = {"-input", "inputfile", "-output", "outputfile"};

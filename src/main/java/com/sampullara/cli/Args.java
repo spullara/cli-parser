@@ -63,20 +63,56 @@ public class Args {
                     String name = getName(argument, field);
                     String alias = getAlias(argument);
                     arg = arg.substring(prefix.length());
+                    Class<?> type = field.getType();
                     if (arg.equals(name) || (alias != null && arg.equals(alias))) {
                         i.remove();
-                        Class<?> type = field.getType();
                         value = consumeArgumentValue(type, argument, i);
-                        setField(type, field, target, value, delimiter);
+                        if (!set) {
+                            setField(type, field, target, value, delimiter);
+                        } else {
+                            addArgument(type, field, target, value, delimiter);
+                        }
                         set = true;
                     }
-                    if (set) break;
+                    if (set && !type.isArray()) break;
                 }
             }
             if (!set && argument.required()) {
                 String name = getName(argument,  field);
                 throw new IllegalArgumentException("You must set argument " + name);
             }
+        }
+    }
+
+    private static void addArgument(Class type, Field field, Object target, Object value, String delimiter) {
+        try {
+            Object[] os = (Object[]) field.get(target);
+            Object[] vs = (Object[]) getValue(type, value, delimiter);
+            Object[] s = (Object[]) Array.newInstance(type.getComponentType(), os.length + vs.length);
+            System.arraycopy(os, 0, s, 0, os.length);
+            System.arraycopy(vs, 0, s, os.length, vs.length);
+            field.set(target, s);
+        } catch (IllegalAccessException iae) {
+            throw new IllegalArgumentException("Could not set field " + field, iae);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalArgumentException("Could not find constructor in class " + type.getName() + " that takes a string", e);
+        }
+    }
+
+    private static void addPropertyArgument(Class type, PropertyDescriptor property, Object target, Object value, String delimiter) {
+        try {
+            Object[] os = (Object[]) property.getReadMethod().invoke(target);
+            Object[] vs = (Object[]) getValue(type, value, delimiter);
+            Object[] s = (Object[]) Array.newInstance(type.getComponentType(), os.length + vs.length);
+            System.arraycopy(os, 0, s, 0, os.length);
+            System.arraycopy(vs, 0, s, os.length, vs.length);
+            property.getWriteMethod().invoke(target, (Object) s);
+        } catch (IllegalAccessException iae) {
+            throw new IllegalArgumentException("Could not set property " + property, iae);
+        } catch (NoSuchMethodException e) {
+            throw new IllegalArgumentException("Could not find constructor in class " + type.getName() + " that takes a string", e);
+        } catch (InvocationTargetException e) {
+            throw new IllegalArgumentException("Failed to validate argument " + value + " for " + property);
         }
     }
 
@@ -95,14 +131,18 @@ public class Args {
                         String name = getName(argument, property);
                         String alias = getAlias(argument);
                         arg = arg.substring(prefix.length());
+                        Class<?> type = property.getPropertyType();
                         if (arg.equals(name) || (alias != null && arg.equals(alias))) {
                             i.remove();
-                            Class<?> type = property.getPropertyType();
                             value = consumeArgumentValue(type, argument, i);
-                            setProperty(type, property, target, value, delimiter);
+                            if (!set) {
+                                setProperty(type, property, target, value, delimiter);
+                            } else {
+                                addPropertyArgument(type, property, target, value, delimiter);
+                            }
                             set = true;
                         }
-                        if (set) break;
+                        if (set && !type.isArray()) break;
                     }
                 }
                 if (!set && argument.required()) {
