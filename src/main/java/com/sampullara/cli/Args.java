@@ -41,11 +41,10 @@ public class Args {
         }
 
         // Check fields of 'target' class and its superclasses
-        while (clazz != null) {
-            for (Field field : clazz.getDeclaredFields()) {
+      for (Class<?> currentClazz = clazz; currentClazz != null;  currentClazz = currentClazz.getSuperclass()) {
+            for (Field field : currentClazz.getDeclaredFields()) {
                 processField(target, field, arguments);
             }
-            clazz = clazz.getSuperclass();
         }
 
         for (String argument : arguments) {
@@ -182,8 +181,10 @@ public class Args {
             clazz = target.getClass();
         }
         errStream.println("Usage: " + clazz.getName());
-        for (Field field : clazz.getDeclaredFields()) {
+        for (Class<?> currentClazz = clazz; currentClazz != null;  currentClazz = currentClazz.getSuperclass()) {
+          for (Field field : currentClazz.getDeclaredFields()) {
             fieldUsage(errStream, target, field);
+          }
         }
         try {
             BeanInfo info = Introspector.getBeanInfo(clazz);
