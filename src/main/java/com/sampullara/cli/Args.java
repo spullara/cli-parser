@@ -39,9 +39,15 @@ public class Args {
                 // If its not a JavaBean we ignore it
             }
         }
-        for (Field field : clazz.getDeclaredFields()) {
-            processField(target, field, arguments);
+
+        // Check fields of 'target' class and its superclasses
+        while (clazz != null) {
+            for (Field field : clazz.getDeclaredFields()) {
+                processField(target, field, arguments);
+            }
+            clazz = clazz.getSuperclass();
         }
+
         for (String argument : arguments) {
             if (argument.startsWith("-")) {
                 throw new IllegalArgumentException("Invalid argument: " + argument);
