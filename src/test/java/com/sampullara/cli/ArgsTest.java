@@ -1,6 +1,7 @@
 package com.sampullara.cli;
 
 import junit.framework.TestCase;
+import org.junit.Test;
 
 import java.io.File;
 import java.util.List;
@@ -100,6 +101,14 @@ public class ArgsTest extends TestCase {
         List<String> extra = Args.parse(StaticTestCommand.class, args);
         assertEquals(1, (int) StaticTestCommand.num);
         assertEquals("extra", extra.get(0));
+    }
+
+    public void testDerivedCommand() {
+        String[] args = { "-help", "-verbose" };
+        TestCommand6 tc = new TestCommand6();
+        Args.parse(tc, args);
+        assertTrue(tc.help);
+        assertTrue(tc.verbose);
     }
 
     public static class TestCommand {
@@ -265,5 +274,15 @@ public class ArgsTest extends TestCase {
 
         @Argument(required = true)
         private static String output;
+    }
+
+    public static abstract class TestCommand5 {
+        @Argument
+        public boolean help;
+    }
+
+    public static class TestCommand6 extends TestCommand5 {
+        @Argument
+        public boolean verbose;
     }
 }
