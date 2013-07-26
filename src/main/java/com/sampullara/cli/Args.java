@@ -58,9 +58,14 @@ public class Args {
                 // If its not a JavaBean we ignore it
             }
         }
-        for (Field field : clazz.getDeclaredFields()) {
-            processField(target, field, arguments);
+
+        // Check fields of 'target' class and its superclasses
+      for (Class<?> currentClazz = clazz; currentClazz != null;  currentClazz = currentClazz.getSuperclass()) {
+            for (Field field : currentClazz.getDeclaredFields()) {
+                processField(target, field, arguments);
+            }
         }
+
         for (String argument : arguments) {
             if (argument.startsWith("-")) {
                 throw new IllegalArgumentException("Invalid argument: " + argument);
@@ -195,8 +200,10 @@ public class Args {
             clazz = target.getClass();
         }
         errStream.println("Usage: " + clazz.getName());
-        for (Field field : clazz.getDeclaredFields()) {
+        for (Class<?> currentClazz = clazz; currentClazz != null;  currentClazz = currentClazz.getSuperclass()) {
+          for (Field field : currentClazz.getDeclaredFields()) {
             fieldUsage(errStream, target, field);
+          }
         }
         try {
             BeanInfo info = Introspector.getBeanInfo(clazz);
