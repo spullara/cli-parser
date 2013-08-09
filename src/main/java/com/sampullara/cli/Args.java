@@ -6,11 +6,8 @@
 package com.sampullara.cli;
 
 
-import java.beans.BeanInfo;
-import java.beans.IntrospectionException;
-import java.beans.Introspector;
-import java.beans.PropertyDescriptor;
-import java.io.PrintStream;
+import java.beans.*;
+import java.io.*;
 import java.lang.reflect.*;
 import java.util.*;
 
@@ -405,14 +402,28 @@ public class Args {
     }
 
     private static Object createValue(Class<?> type, Object value) throws NoSuchMethodException {
-        Constructor<?> init = type.getDeclaredConstructor(String.class);
+    	Object createdValue = null;
+    	String valueAsString = (String) value;		// from my understanding only String can reach this point
+    	
+    	for (ValueCreator valueCreator : valueCreators) {
+    		createdValue = valueCreator.createValue(type, valueAsString);
+    		if (createdValue != null) {
+    			return createdValue;
+    		}
+		}
+    	
+        throw new IllegalArgumentException(String.format("cannot instanciate any %s object using %s value", type.toString(), valueAsString));
+    }
+
+	private static Object createValueFromStringConstructor(Class<?> type, Object value) throws NoSuchMethodException {
+		Constructor<?> init = type.getDeclaredConstructor(String.class);
         try {
             value = init.newInstance(value);
         } catch (Exception e) {
             throw new IllegalArgumentException("Failed to convert " + value + " to type " + type.getName(), e);
         }
         return value;
-    }
+	}
 
     private static void makeAccessible(AccessibleObject ao) {
         if (ao instanceof Member) {
@@ -422,5 +433,87 @@ public class Args {
             }
         }
     }
+    
+    public static interface ValueCreator {
+    	/**
+    	 * Creates a value object of the given type using the given string value representation; 
+    	 * @param type the type to create an instance of
+    	 * @param value the string represented value of the object to create
+    	 * @return null if the object could not be created, the value otherwise
+    	 */
+    	public Object createValue(Class<?> type, String value);
+    }
+    
+    /**
+     * Creates a {@link ValueCreator} object able to create object assignable from given type,
+     * using a static one arg method which name is the the given one taking a String object as parameter
+     * @param compatibleType the base assignable for which this object will try to invoke the given method
+     * @param methodName the name of the one arg method taking a String as parameter that will be used to built a new value
+     * @return null if the object could not be created, the value otherwise
+     */
+    public static ValueCreator byStaticMethodInvocation(final Class<?> compatibleType, final String methodName) {
+    	return new ValueCreator() {
+			public Object createValue(Class<?> type, String value) {
+				Object v = null;
+				if (compatibleType.isAssignableFrom(type)) {
+					try {
+						Method m = type.getMethod(methodName, String.class);
+						return m.invoke(null, value);
+					} catch (NoSuchMethodException e) {
+						// ignore
+					} catch (Exception e) {
+						throw new IllegalArgumentException(String.format("could not invoke %s#%s to create an obejct from %s", type.toString(), methodName, value));
+					}
+				}
+				return v;
+			}
+		};
+    }
 
+    /**
+     * {@link ValueCreator} building object using a one arg constructor taking a {@link String} object as parameter
+     */
+    public static final ValueCreator FROM_STRING_CONSTRUCTOR = new ValueCreator() {
+		public Object createValue(Class<?> type, String value) {
+			Object v = null;
+	        try {
+	        	Constructor<?> init = type.getDeclaredConstructor(String.class);
+	        	v = init.newInstance(value);
+	        } catch (NoSuchMethodException e) {
+	        	// ignore
+	        } catch (Exception e) {
+	            throw new IllegalArgumentException("Failed to convert " + value + " to type " + type.getName(), e);
+	        }
+	        return v;
+		}
+	};
+	
+	public static final ValueCreator ENUM_CREATOR = new ValueCreator() {
+		@SuppressWarnings({"unchecked", "rawtypes"})
+		public Object createValue(Class type, String value) {
+			if (Enum.class.isAssignableFrom(type)) {
+				return Enum.valueOf(type, value);
+			}
+			return null;
+		}
+	};
+
+	private static final List<ValueCreator> DEFAULT_VALUE_CREATORS = Arrays.asList(Args.FROM_STRING_CONSTRUCTOR, Args.ENUM_CREATOR);
+    private static List<ValueCreator> valueCreators = new ArrayList<Args.ValueCreator>(DEFAULT_VALUE_CREATORS);
+    
+    /**
+     * Allows external extension of the valiue creators.
+     * @param vc another value creator to take into account for trying to create values
+     */
+    public static void registerValueCreator(ValueCreator vc) {
+    	valueCreators.add(vc);
+    }
+    
+    /**
+     * Cleanup of registered ValueCreators (mainly for tests) 
+     */
+    public static void resetValueCreators() {
+    	valueCreators.clear();
+    	valueCreators.addAll(DEFAULT_VALUE_CREATORS);
+    }
 }
