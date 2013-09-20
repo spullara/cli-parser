@@ -6,10 +6,23 @@
 package com.sampullara.cli;
 
 
-import java.beans.*;
-import java.io.*;
-import java.lang.reflect.*;
-import java.util.*;
+import java.beans.BeanInfo;
+import java.beans.IntrospectionException;
+import java.beans.Introspector;
+import java.beans.PropertyDescriptor;
+import java.io.PrintStream;
+import java.lang.reflect.AccessibleObject;
+import java.lang.reflect.Array;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Member;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 
 public class Args {
 
@@ -57,7 +70,7 @@ public class Args {
         }
 
         // Check fields of 'target' class and its superclasses
-      for (Class<?> currentClazz = clazz; currentClazz != null;  currentClazz = currentClazz.getSuperclass()) {
+        for (Class<?> currentClazz = clazz; currentClazz != null; currentClazz = currentClazz.getSuperclass()) {
             for (Field field : currentClazz.getDeclaredFields()) {
                 processField(target, field, arguments);
             }
@@ -75,7 +88,7 @@ public class Args {
         Argument argument = field.getAnnotation(Argument.class);
         if (argument != null) {
             boolean set = false;
-            for (Iterator<String> i = arguments.iterator(); i.hasNext();) {
+            for (Iterator<String> i = arguments.iterator(); i.hasNext(); ) {
                 String arg = i.next();
                 String prefix = argument.prefix();
                 String delimiter = argument.delimiter();
@@ -99,7 +112,7 @@ public class Args {
                 }
             }
             if (!set && argument.required()) {
-                String name = getName(argument,  field);
+                String name = getName(argument, field);
                 throw new IllegalArgumentException("You must set argument " + name);
             }
         }
@@ -143,7 +156,7 @@ public class Args {
             Argument argument = writeMethod.getAnnotation(Argument.class);
             if (argument != null) {
                 boolean set = false;
-                for (Iterator<String> i = arguments.iterator(); i.hasNext();) {
+                for (Iterator<String> i = arguments.iterator(); i.hasNext(); ) {
                     String arg = i.next();
                     String prefix = argument.prefix();
                     String delimiter = argument.delimiter();
@@ -167,7 +180,7 @@ public class Args {
                     }
                 }
                 if (!set && argument.required()) {
-                    String name = getName(argument,  property);
+                    String name = getName(argument, property);
                     throw new IllegalArgumentException("You must set argument " + name);
                 }
             }
@@ -187,7 +200,7 @@ public class Args {
      * Generate usage information based on the target annotations.
      *
      * @param errStream A {@link java.io.PrintStream} to print the usage information to.
-     * @param target An instance or class.
+     * @param target    An instance or class.
      */
     public static void usage(PrintStream errStream, Object target) {
         Class<?> clazz;
@@ -197,10 +210,10 @@ public class Args {
             clazz = target.getClass();
         }
         errStream.println("Usage: " + clazz.getName());
-        for (Class<?> currentClazz = clazz; currentClazz != null;  currentClazz = currentClazz.getSuperclass()) {
-          for (Field field : currentClazz.getDeclaredFields()) {
-            fieldUsage(errStream, target, field);
-          }
+        for (Class<?> currentClazz = clazz; currentClazz != null; currentClazz = currentClazz.getSuperclass()) {
+            for (Field field : currentClazz.getDeclaredFields()) {
+                fieldUsage(errStream, target, field);
+            }
         }
         try {
             BeanInfo info = Introspector.getBeanInfo(clazz);
@@ -381,8 +394,8 @@ public class Args {
 
     private static Object getValue(Class<?> type, Object value, String delimiter) throws NoSuchMethodException {
         if (type != String.class && type != Boolean.class && type != Boolean.TYPE) {
+            String string = (String) value;
             if (type.isArray()) {
-                String string = (String) value;
                 String[] strings = string.split(delimiter);
                 type = type.getComponentType();
                 if (type == String.class) {
@@ -395,35 +408,21 @@ public class Args {
                     value = array;
                 }
             } else {
-                value = createValue(type, value);
+                value = createValue(type, string);
             }
         }
         return value;
     }
 
-    private static Object createValue(Class<?> type, Object value) throws NoSuchMethodException {
-    	Object createdValue = null;
-    	String valueAsString = (String) value;		// from my understanding only String can reach this point
-    	
-    	for (ValueCreator valueCreator : valueCreators) {
-    		createdValue = valueCreator.createValue(type, valueAsString);
-    		if (createdValue != null) {
-    			return createdValue;
-    		}
-		}
-    	
+    private static Object createValue(Class<?> type, String valueAsString) throws NoSuchMethodException {
+        for (ValueCreator valueCreator : valueCreators) {
+            Object createdValue = valueCreator.createValue(type, valueAsString);
+            if (createdValue != null) {
+                return createdValue;
+            }
+        }
         throw new IllegalArgumentException(String.format("cannot instanciate any %s object using %s value", type.toString(), valueAsString));
     }
-
-	private static Object createValueFromStringConstructor(Class<?> type, Object value) throws NoSuchMethodException {
-		Constructor<?> init = type.getDeclaredConstructor(String.class);
-        try {
-            value = init.newInstance(value);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Failed to convert " + value + " to type " + type.getName(), e);
-        }
-        return value;
-	}
 
     private static void makeAccessible(AccessibleObject ao) {
         if (ao instanceof Member) {
@@ -433,87 +432,90 @@ public class Args {
             }
         }
     }
-    
+
     public static interface ValueCreator {
-    	/**
-    	 * Creates a value object of the given type using the given string value representation; 
-    	 * @param type the type to create an instance of
-    	 * @param value the string represented value of the object to create
-    	 * @return null if the object could not be created, the value otherwise
-    	 */
-    	public Object createValue(Class<?> type, String value);
+        /**
+         * Creates a value object of the given type using the given string value representation;
+         *
+         * @param type  the type to create an instance of
+         * @param value the string represented value of the object to create
+         * @return null if the object could not be created, the value otherwise
+         */
+        public Object createValue(Class<?> type, String value);
     }
-    
+
     /**
      * Creates a {@link ValueCreator} object able to create object assignable from given type,
      * using a static one arg method which name is the the given one taking a String object as parameter
+     *
      * @param compatibleType the base assignable for which this object will try to invoke the given method
-     * @param methodName the name of the one arg method taking a String as parameter that will be used to built a new value
+     * @param methodName     the name of the one arg method taking a String as parameter that will be used to built a new value
      * @return null if the object could not be created, the value otherwise
      */
     public static ValueCreator byStaticMethodInvocation(final Class<?> compatibleType, final String methodName) {
-    	return new ValueCreator() {
-			public Object createValue(Class<?> type, String value) {
-				Object v = null;
-				if (compatibleType.isAssignableFrom(type)) {
-					try {
-						Method m = type.getMethod(methodName, String.class);
-						return m.invoke(null, value);
-					} catch (NoSuchMethodException e) {
-						// ignore
-					} catch (Exception e) {
-						throw new IllegalArgumentException(String.format("could not invoke %s#%s to create an obejct from %s", type.toString(), methodName, value));
-					}
-				}
-				return v;
-			}
-		};
+        return new ValueCreator() {
+            public Object createValue(Class<?> type, String value) {
+                Object v = null;
+                if (compatibleType.isAssignableFrom(type)) {
+                    try {
+                        Method m = type.getMethod(methodName, String.class);
+                        return m.invoke(null, value);
+                    } catch (NoSuchMethodException e) {
+                        // ignore
+                    } catch (Exception e) {
+                        throw new IllegalArgumentException(String.format("could not invoke %s#%s to create an obejct from %s", type.toString(), methodName, value));
+                    }
+                }
+                return v;
+            }
+        };
     }
 
     /**
      * {@link ValueCreator} building object using a one arg constructor taking a {@link String} object as parameter
      */
     public static final ValueCreator FROM_STRING_CONSTRUCTOR = new ValueCreator() {
-		public Object createValue(Class<?> type, String value) {
-			Object v = null;
-	        try {
-	        	Constructor<?> init = type.getDeclaredConstructor(String.class);
-	        	v = init.newInstance(value);
-	        } catch (NoSuchMethodException e) {
-	        	// ignore
-	        } catch (Exception e) {
-	            throw new IllegalArgumentException("Failed to convert " + value + " to type " + type.getName(), e);
-	        }
-	        return v;
-		}
-	};
-	
-	public static final ValueCreator ENUM_CREATOR = new ValueCreator() {
-		@SuppressWarnings({"unchecked", "rawtypes"})
-		public Object createValue(Class type, String value) {
-			if (Enum.class.isAssignableFrom(type)) {
-				return Enum.valueOf(type, value);
-			}
-			return null;
-		}
-	};
+        public Object createValue(Class<?> type, String value) {
+            Object v = null;
+            try {
+                Constructor<?> init = type.getDeclaredConstructor(String.class);
+                v = init.newInstance(value);
+            } catch (NoSuchMethodException e) {
+                // ignore
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Failed to convert " + value + " to type " + type.getName(), e);
+            }
+            return v;
+        }
+    };
 
-	private static final List<ValueCreator> DEFAULT_VALUE_CREATORS = Arrays.asList(Args.FROM_STRING_CONSTRUCTOR, Args.ENUM_CREATOR);
+    public static final ValueCreator ENUM_CREATOR = new ValueCreator() {
+        @SuppressWarnings({"unchecked", "rawtypes"})
+        public Object createValue(Class type, String value) {
+            if (Enum.class.isAssignableFrom(type)) {
+                return Enum.valueOf(type, value);
+            }
+            return null;
+        }
+    };
+
+    private static final List<ValueCreator> DEFAULT_VALUE_CREATORS = Arrays.asList(Args.FROM_STRING_CONSTRUCTOR, Args.ENUM_CREATOR);
     private static List<ValueCreator> valueCreators = new ArrayList<Args.ValueCreator>(DEFAULT_VALUE_CREATORS);
-    
+
     /**
      * Allows external extension of the valiue creators.
+     *
      * @param vc another value creator to take into account for trying to create values
      */
     public static void registerValueCreator(ValueCreator vc) {
-    	valueCreators.add(vc);
+        valueCreators.add(vc);
     }
-    
+
     /**
-     * Cleanup of registered ValueCreators (mainly for tests) 
+     * Cleanup of registered ValueCreators (mainly for tests)
      */
     public static void resetValueCreators() {
-    	valueCreators.clear();
-    	valueCreators.addAll(DEFAULT_VALUE_CREATORS);
+        valueCreators.clear();
+        valueCreators.addAll(DEFAULT_VALUE_CREATORS);
     }
 }
