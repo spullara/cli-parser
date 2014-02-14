@@ -44,14 +44,22 @@ public class Args {
         }
     }
 
+    public static List<String> parse(Object target, String[] args) {
+        return parse(target, args, true);
+    }
+
     /**
      * Parse a set of arguments and populate the target with the appropriate values.
      *
-     * @param target Either an instance or a class
-     * @param args   The arguments you want to parse and populate
+     * @param target
+     *            Either an instance or a class
+     * @param args
+     *            The arguments you want to parse and populate
+     * @param failOnExtraFlags
+     *            Throw an IllegalArgumentException if extra flags are present
      * @return The list of arguments that were not consumed
      */
-    public static List<String> parse(Object target, String[] args) {
+    public static List<String> parse(Object target, String[] args, boolean failOnExtraFlags) {
         List<String> arguments = new ArrayList<String>();
         arguments.addAll(Arrays.asList(args));
         Class<?> clazz;
@@ -76,9 +84,11 @@ public class Args {
             }
         }
 
-        for (String argument : arguments) {
-            if (argument.startsWith("-")) {
-                throw new IllegalArgumentException("Invalid argument: " + argument);
+        if (failOnExtraFlags) {
+            for (String argument : arguments) {
+                if (argument.startsWith("-")) {
+                    throw new IllegalArgumentException("Invalid argument: " + argument);
+                }
             }
         }
         return arguments;
