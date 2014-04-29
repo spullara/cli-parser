@@ -4,7 +4,7 @@
   <artifactId>cli-parser</artifactId>
   <packaging>jar</packaging>
   <name>CLI Parser</name>
-  <version>1.1.2-SNAPSHOT</version>
+  <version>1.1.2</version>
   <url>http://code.google.com/p/cli-parser/</url>
   <description>An annotation-based command line interface parser.</description>
 
@@ -36,6 +36,7 @@
     <connection>scm:git:git@github.com:spullara/cli-parser.git</connection>
     <developerConnection>scm:git:git@github.com:spullara/cli-parser.git</developerConnection>
     <url>scm:git:git@github.com:spullara/cli-parser.git</url>
+    <tag>cli-parser-1.1.2</tag>
   </scm>
 
   <distributionManagement>
