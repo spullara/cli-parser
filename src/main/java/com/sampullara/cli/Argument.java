@@ -8,6 +8,8 @@ package com.sampullara.cli;
 import java.lang.annotation.Documented;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.util.List;
+import java.util.concurrent.Callable;
 
 @Documented
 @Retention(RetentionPolicy.RUNTIME)
@@ -38,4 +40,12 @@ public @interface Argument {
      * A delimiter for arguments that are multi-valued.
      */
     String delimiter() default ",";
+
+    Class<? extends Callable<List<String>>> valuesProvider() default DummyCallable.class;
+
+    class DummyCallable implements Callable<List<String>> {
+        public List<String> call() throws Exception {
+            return null;
+        }
+    }
 }

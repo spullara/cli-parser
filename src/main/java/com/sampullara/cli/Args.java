@@ -19,10 +19,8 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Member;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
+import java.util.concurrent.Callable;
 
 public class Args {
 
@@ -243,13 +241,14 @@ public class Args {
             String prefix = argument.prefix();
             String delimiter = argument.delimiter();
             String description = argument.description();
+            Class<? extends Callable<List<String>>> valuesProvider = argument.valuesProvider();
             makeAccessible(field);
             try {
                 Object defaultValue = field.get(target);
                 Class<?> type = field.getType();
-                propertyUsage(errStream, prefix, name, alias, type, delimiter, description, defaultValue);
+                propertyUsage(errStream, prefix, name, alias, type, delimiter, description, defaultValue, getPossibleValues(type, valuesProvider));
             } catch (IllegalAccessException e) {
-                throw new IllegalArgumentException("Could not use thie field " + field + " as an argument field", e);
+                throw new IllegalArgumentException("Could not use this field " + field + " as an argument field", e);
             }
         }
     }
@@ -264,6 +263,7 @@ public class Args {
                 String prefix = argument.prefix();
                 String delimiter = argument.delimiter();
                 String description = argument.description();
+                Class<? extends Callable<List<String>>> valuesProvider = argument.valuesProvider();
                 try {
                     Method readMethod = field.getReadMethod();
                     Object defaultValue;
@@ -273,9 +273,9 @@ public class Args {
                         defaultValue = readMethod.invoke(target, (Object[]) null);
                     }
                     Class<?> type = field.getPropertyType();
-                    propertyUsage(errStream, prefix, name, alias, type, delimiter, description, defaultValue);
+                    propertyUsage(errStream, prefix, name, alias, type, delimiter, description, defaultValue, getPossibleValues(type, valuesProvider));
                 } catch (IllegalAccessException e) {
-                    throw new IllegalArgumentException("Could not use thie field " + field + " as an argument field", e);
+                    throw new IllegalArgumentException("Could not use this field " + field + " as an argument field", e);
                 } catch (InvocationTargetException e) {
                     throw new IllegalArgumentException("Could not get default value for " + field, e);
                 }
@@ -284,7 +284,7 @@ public class Args {
 
     }
 
-    private static void propertyUsage(PrintStream errStream, String prefix, String name, String alias, Class<?> type, String delimiter, String description, Object defaultValue) {
+    private static void propertyUsage(PrintStream errStream, String prefix, String name, String alias, Class<?> type, String delimiter, String description, Object defaultValue, List<String> possibleValues) {
         StringBuilder sb = new StringBuilder("  ");
         sb.append(prefix);
         sb.append(name);
@@ -326,6 +326,20 @@ public class Args {
                 sb.append(")");
             }
 
+        }
+        if (possibleValues != null && !possibleValues.isEmpty()) {
+            sb.append(System.getProperty("line.separator"));
+            sb.append("    Possible values are: ");
+            boolean first = true;
+            for (String possibleValue : possibleValues) {
+                if (first) {
+                    first = false;
+                } else {
+                    sb.append(", ");
+                }
+
+                sb.append(possibleValue);
+            }
         }
         errStream.println(sb);
     }
@@ -443,7 +457,40 @@ public class Args {
         }
     }
 
-    public static interface ValueCreator {
+    private static List<String> getPossibleValues(Class<?> type, Class<? extends Callable<List<String>>> provider) {
+        if (type.isEnum()) {
+            return getEnumPossibleValues(type);
+        }
+        return getPossibleValuesViaProvider(provider);
+    }
+
+    private static List<String> getPossibleValuesViaProvider(Class<? extends Callable<List<String>>> provider) {
+        try {
+            return provider.newInstance().call();
+        } catch (InstantiationException e) {
+            return Collections.emptyList();
+        } catch (IllegalAccessException e) {
+            return Collections.emptyList();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @SuppressWarnings("unchecked")
+    private static List<String> getEnumPossibleValues(Class<?> clazz) {
+        return getEnumPossibleValuesImpl((Class<Enum>)clazz);
+    }
+
+    private static <T extends Enum<T>> List<String> getEnumPossibleValuesImpl(Class<T> clazz) {
+        List<String> result = new ArrayList<String>();
+        for (T value : clazz.getEnumConstants()) {
+            result.add(value.name());
+        }
+
+        return result;
+    }
+
+    public interface ValueCreator {
         /**
          * Creates a value object of the given type using the given string value representation;
          *
@@ -451,7 +498,7 @@ public class Args {
          * @param value the string represented value of the object to create
          * @return null if the object could not be created, the value otherwise
          */
-        public Object createValue(Class<?> type, String value);
+        Object createValue(Class<?> type, String value);
     }
 
     /**
@@ -465,7 +512,6 @@ public class Args {
     public static ValueCreator byStaticMethodInvocation(final Class<?> compatibleType, final String methodName) {
         return new ValueCreator() {
             public Object createValue(Class<?> type, String value) {
-                Object v = null;
                 if (compatibleType.isAssignableFrom(type)) {
                     try {
                         Method m = type.getMethod(methodName, String.class);
@@ -476,7 +522,7 @@ public class Args {
                         throw new IllegalArgumentException(String.format("could not invoke %s#%s to create an obejct from %s", type.toString(), methodName, value));
                     }
                 }
-                return v;
+                return null;
             }
         };
     }
