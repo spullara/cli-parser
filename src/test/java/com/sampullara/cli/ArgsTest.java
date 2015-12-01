@@ -3,7 +3,10 @@ package com.sampullara.cli;
 import junit.framework.TestCase;
 import org.junit.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.OutputStream;
+import java.io.PrintStream;
 import java.util.List;
 
 /**
@@ -109,6 +112,27 @@ public class ArgsTest extends TestCase {
         Args.parse(tc, args);
         assertTrue(tc.help);
         assertTrue(tc.verbose);
+    }
+
+    
+    public void testUsageShowsParameterClassByDefault() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        Args.usage(ps, Example.class);
+        
+        ps.flush();
+        String usage = new String(baos.toByteArray());
+        assertTrue(usage.startsWith("Usage: " + Example.class.getName()));
+    }
+    
+    public void testUsageShowsGivenMainClass() {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        PrintStream ps = new PrintStream(baos);
+        Args.usage(ps, Example.class, ArgsTest.class);
+        
+        ps.flush();
+        String usage = new String(baos.toByteArray());
+        assertTrue(usage.startsWith("Usage: " + ArgsTest.class.getName()));
     }
 
     public static class TestCommand {
