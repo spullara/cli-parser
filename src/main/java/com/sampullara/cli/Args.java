@@ -211,13 +211,24 @@ public class Args {
      * @param target    An instance or class.
      */
     public static void usage(PrintStream errStream, Object target) {
+        usage(errStream, target, (target instanceof Class)?(Class)target:target.getClass());
+    }
+    
+    /**
+     * Generate usage information based on the target annotations.
+     *
+     * @param errStream A {@link java.io.PrintStream} to print the usage information to.
+     * @param target    An instance or class.
+     * @param mainClass The class containing the main method
+     */
+    public static void usage(PrintStream errStream, Object target, Class mainClass) {
         Class<?> clazz;
         if (target instanceof Class) {
             clazz = (Class) target;
         } else {
             clazz = target.getClass();
         }
-        errStream.println("Usage: " + clazz.getName());
+        errStream.println("Usage: " + mainClass.getName());
         for (Class<?> currentClazz = clazz; currentClazz != null; currentClazz = currentClazz.getSuperclass()) {
             for (Field field : currentClazz.getDeclaredFields()) {
                 fieldUsage(errStream, target, field);
