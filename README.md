@@ -32,17 +32,9 @@ is available. Here is an example:
       private static Integer port = 6379;
 
       public static void main(String[] args) throws IOException {
-        final List<String> parse;
-        try {
-          parse = Args.parse(Loader.class, args);
-        } catch (IllegalArgumentException e) {
-          Args.usage(Loader.class);
-          System.exit(1);
-          return;
-        }
-
-        // Use all those parameters...
-
+        // unparsed will contain all unparsed arguments to the command line
+        List<String> unparsed = Args.parseOrExit(Loader.class, args);
+        // Loader's fields will be populated after this line or the program will exit with usage
       }
     }
 
