@@ -24,6 +24,9 @@ import java.util.concurrent.Callable;
 
 public class Args {
 
+    // POSIX compliant exit code some gray beard asked me to add
+    public static final int EX_USAGE = 64;
+
     /**
      * A convenience method for parsing and automatically producing error messages.
      *
@@ -37,7 +40,7 @@ public class Args {
         } catch (IllegalArgumentException e) {
             System.err.println(e.getMessage());
             Args.usage(target);
-            System.exit(1);
+            System.exit(EX_USAGE);
             throw e;
         }
     }
