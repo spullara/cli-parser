@@ -1,3 +1,5 @@
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fspullara%2Fcli-parser.svg?type=shield)](https://app.fossa.io/projects/git%2Bgithub.com%2Fspullara%2Fcli-parser?ref=badge_shield)
+
 CLI Parser
 ==========
 
@@ -75,3 +77,6 @@ Here is the license:
        WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
        See the License for the specific language governing permissions and
        limitations under the License.
+
+
+[![FOSSA Status](https://app.fossa.io/api/projects/git%2Bgithub.com%2Fspullara%2Fcli-parser.svg?type=large)](https://app.fossa.io/projects/git%2Bgithub.com%2Fspullara%2Fcli-parser?ref=badge_large)
