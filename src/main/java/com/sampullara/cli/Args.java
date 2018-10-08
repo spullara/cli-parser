@@ -231,6 +231,10 @@ public class Args {
         } else {
             clazz = target.getClass();
         }
+        Help help = clazz.getAnnotation(Help.class);
+        if(help != null && !help.value().equals("")) {
+            errStream.println(help.value());
+        }
         errStream.println("Usage: " + mainClass.getName());
         for (Class<?> currentClazz = clazz; currentClazz != null; currentClazz = currentClazz.getSuperclass()) {
             for (Field field : currentClazz.getDeclaredFields()) {
