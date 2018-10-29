@@ -74,7 +74,7 @@ public class Args {
                     processProperty(target, pd, arguments);
                 }
             } catch (IntrospectionException e) {
-                // If its not a JavaBean we ignore it
+                // If it's not a JavaBean we ignore it
             }
         }
 
