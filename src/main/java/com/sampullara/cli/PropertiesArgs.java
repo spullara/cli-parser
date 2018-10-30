@@ -10,7 +10,7 @@ import java.beans.IntrospectionException;
 
 /**
  * Created by IntelliJ IDEA.
- * <p/>
+ * 
  * User: samp
  * Date: Nov 11, 2007
  * Time: 3:42:27 PM
