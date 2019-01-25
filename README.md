@@ -59,7 +59,7 @@ for the parameter if there is one. You can add it to your code with:
     <dependency>
       <groupId>com.github.spullara.cli-parser</groupId>
       <artifactId>cli-parser</artifactId>
-      <version>1.1</version>
+      <version>1.1.5</version>
     </dependency>
     
 Here is the license:
