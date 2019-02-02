@@ -122,6 +122,14 @@ public class Args {
                     if (set && !type.isArray()) break;
                 }
             }
+            if (!set && !argument.envvar().equals("")) {
+                String value = System.getenv(argument.envvar());
+                if (value != null) {
+                    Class<?> type = field.getType();
+                    setField(type, field, target, value, argument.delimiter());
+                    set = true;
+                }
+            }
             if (!set && argument.required()) {
                 String name = getName(argument, field);
                 throw new IllegalArgumentException("You must set argument " + name);

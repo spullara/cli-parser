@@ -135,6 +135,35 @@ public class ArgsTest extends TestCase {
         assertTrue(usage.startsWith("Usage: " + ArgsTest.class.getName()));
     }
 
+    public void testEnvvar() {
+        String envvar = System.getenv("TEST_ENV_VAR");
+        if (envvar == null) {
+            // there is no way to setenv from java, has to be set externally
+            // sadly, there is no way to conditionally ignore junit3 tests either
+            return;
+        }
+
+        TestCommand7 tc = new TestCommand7();
+        Args.parse(tc, new String[0]);
+        assertEquals(envvar, tc.arg);
+
+        // explicit cli value wins
+        Args.parse(tc, new String[] { "-arg", "value provided via cli" });
+        assertEquals("value provided via cli", tc.arg);
+    }
+
+    public void testRequiredUnsetEnvvar() {
+        assertNull("TEST_UNSET_ENV_VAR must not be set", System.getenv("TEST_UNSET_ENV_VAR"));
+
+        try {
+            TestCommand8 tc = new TestCommand8();
+            Args.parse(tc, new String[0]);
+            fail();
+        } catch (IllegalArgumentException expected) {
+            // java.lang.IllegalArgumentException: You must set argument arg
+        }
+    }
+
     public static class TestCommand {
         @Argument(value = "input", description = "This is the input file", required = true)
         private String inputFilename;
@@ -308,5 +337,15 @@ public class ArgsTest extends TestCase {
     public static class TestCommand6 extends TestCommand5 {
         @Argument
         public boolean verbose;
+    }
+
+    public static class TestCommand7 {
+        @Argument(envvar = "TEST_ENV_VAR")
+        public String arg;
+    }
+
+    public static class TestCommand8 {
+        @Argument(envvar = "TEST_UNSET_ENV_VAR", required = true)
+        public String arg;
     }
 }
