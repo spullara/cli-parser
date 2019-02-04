@@ -32,6 +32,10 @@ public @interface Argument {
      */
     String alias() default "";
     /**
+     * Each argument can be read from environment variable. 
+     */
+    String envvar() default "";
+    /**
      * A description of the argument that will appear in the usage method
      */
     String description() default "";
