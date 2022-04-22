@@ -149,6 +149,8 @@ public class Args {
             throw new IllegalArgumentException("Could not set field " + field, iae);
         } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException("Could not find constructor in class " + type.getName() + " that takes a string", e);
+        } catch (IllegalArgumentException iae) {
+            throw new IllegalArgumentException("Could not set field " + field, iae);
         }
     }
 
@@ -166,6 +168,8 @@ public class Args {
             throw new IllegalArgumentException("Could not find constructor in class " + type.getName() + " that takes a string", e);
         } catch (InvocationTargetException e) {
             throw new IllegalArgumentException("Failed to validate argument " + value + " for " + property);
+        } catch (IllegalArgumentException iae) {
+            throw new IllegalArgumentException("Could not set property " + property, iae);
         }
     }
 
@@ -224,7 +228,7 @@ public class Args {
     public static void usage(PrintStream errStream, Object target) {
         usage(errStream, target, (target instanceof Class)?(Class)target:target.getClass());
     }
-    
+
     /**
      * Generate usage information based on the target annotations.
      *
@@ -411,6 +415,8 @@ public class Args {
             throw new IllegalArgumentException("Could not find constructor in class " + type.getName() + " that takes a string", e);
         } catch (InvocationTargetException e) {
             throw new IllegalArgumentException("Failed to validate argument " + value + " for " + property);
+        } catch (IllegalArgumentException iae) {
+            throw new IllegalArgumentException("Could not set property " + property, iae);
         }
     }
 
@@ -439,6 +445,8 @@ public class Args {
             throw new IllegalArgumentException("Could not set field " + field, iae);
         } catch (NoSuchMethodException e) {
             throw new IllegalArgumentException("Could not find constructor in class " + type.getName() + " that takes a string", e);
+        } catch (IllegalArgumentException iae) {
+            throw new IllegalArgumentException("Could not set field " + field, iae);
         }
     }
 
